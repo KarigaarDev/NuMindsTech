@@ -1,0 +1,1 @@
+error_log("Something happened\n", 3, __DIR__.'/../../storage/logs/app.log');

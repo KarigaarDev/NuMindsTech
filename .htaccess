@@ -1,0 +1,49 @@
+RewriteEngine On
+RewriteBase /numindsTech/
+
+# Prevent directory listing
+Options -Indexes
+
+# Error Pages
+ErrorDocument 404 /numindsTech/public/404.php
+
+# Block direct access to sensitive folders and files
+RewriteRule ^(app|storage|\.env) - [F,L]
+
+# 1. Admin Routes (Start with specific routes before generic ones)
+RewriteRule ^admin/leads$ admin/leads.php [L]
+RewriteRule ^admin/lead-view$ admin/lead-view.php [L]
+RewriteRule ^admin/lead-remark$ admin/lead-remark.php [L]
+RewriteRule ^admin/item-delete$ admin/item-delete.php [L]
+
+# 2. Public Routes (Clean URLs)
+RewriteRule ^$ public/index.php [L]
+RewriteRule ^login$ public/login.php [L]
+RewriteRule ^dashboard$ public/dashboard.php [L]
+RewriteRule ^client-dashboard$ public/client-dashboard.php [L]
+RewriteRule ^billing$ public/billing.php [L]
+RewriteRule ^logout$ public/logout.php [L]
+RewriteRule ^maintenance$ public/maintenance.php [L]
+RewriteRule ^items$ public/items.php [L]
+RewriteRule ^portfolio$ public/portfolio.php [L]
+RewriteRule ^portfolio-delete$ public/portfolio-delete.php [L]
+RewriteRule ^users$ public/users.php [L]
+RewriteRule ^settings$ public/settings.php [L]
+RewriteRule ^maintenance$ public/maintenance.php [L]
+RewriteRule ^submit-lead$ public/submit-lead.php [L]
+
+# 3. Existing Files/Directories
+# If the request matches a real file or directory (e.g. admin/css/style.css, public/index.php), serve it directly.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 4. Handle top-level .php requests (mapping to public/)
+# e.g. /numindsTech/submit-lead.php -> public/submit-lead.php
+# This supports form actions that might point to .php files
+RewriteRule ^([^/]+)\.php$ public/$1.php [L]
+
+# 5. Handle static assets in public folder
+# If a file exists in public/ (e.g. uploads/image.jpg), rewrite to it.
+RewriteCond %{DOCUMENT_ROOT}/numindsTech/public/$1 -f
+RewriteRule ^(.+)$ public/$1 [L]
