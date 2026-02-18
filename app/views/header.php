@@ -44,23 +44,7 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
     
     <!-- Icons: FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <?php require __DIR__ . '/../config/tailwind.php'; ?>
-    
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Swiper (Client logos slider) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <script defer src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <style>
-        /* Modal Transitions */
-        [x-cloak] { display: none !important; }
-    </style>
+    <!-- Tailwind Configuration -->
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
@@ -78,9 +62,31 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
             }
         }
     </script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <?php require __DIR__ . '/../config/tailwind.php'; ?>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Swiper (Client logos slider) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <style>
+        /* Modal Transitions */
+        [x-cloak] { display: none !important; }
+    </style>
+
 </head>
 
-<body x-data="{ modalOpen: false }" class="bg-white text-slate-900 dark:bg-brand-dark dark:text-slate-200 font-sans antialiased selection:bg-brand-cyan selection:text-brand-navy transition-colors duration-300">
+<body 
+x-data="{ modalOpen: false }" 
+class="bg-white text-slate-900 
+       dark:bg-brand-dark dark:text-slate-200 
+       font-sans antialiased 
+       selection:bg-brand-accent selection:text-white 
+       transition-colors duration-500">
 
 <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -115,7 +121,10 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
             <a href="#solutions" class="text-slate-500 hover:text-brand-cyan dark:text-slate-400 dark:hover:text-white transition-colors">Portfolio</a>
             
             <!-- Dark Mode Toggle -->
-            <button onclick="toggleTheme()" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-brand-cyan transition-colors">
+           <button onclick="toggleTheme()" 
+        class="w-9 h-9 rounded-full flex items-center justify-center 
+               bg-slate-100 dark:bg-brand-navy 
+               hover:scale-105 transition-all duration-300">
                 <i class="fa-solid fa-moon dark:hidden"></i>
                 <i class="fa-solid fa-sun hidden dark:inline"></i>
             </button>
@@ -144,7 +153,7 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden md:hidden border-t dark:border-slate-800 bg-white dark:bg-brand-dark absolute w-full shadow-2xl">
+<div id="mobileMenu" class="hidden md:hidden border-t dark:border-slate-800 bg-white dark:bg-brand-dark absolute w-full shadow-2xl transition-all duration-300">
         <nav class="flex flex-col px-8 py-10 space-y-6 text-sm font-bold uppercase tracking-widest">
             <a href="<?= url('') ?>" class="text-slate-600 dark:text-slate-300">Home</a>
             <a href="#services" class="text-slate-600 dark:text-slate-300">Services</a>
@@ -164,7 +173,10 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
     </div>
 </header>
 <!-- Spacer for fixed header -->
-<div class="h-[73px]"></div>
+<div class="<?= (Auth::check() && setting('maintenance_mode') === '1') 
+    ? 'h-[105px]' 
+    : 'h-[73px]' ?>">
+</div>
 <script>
 const btn = document.getElementById('menuBtn');
 if (btn) {

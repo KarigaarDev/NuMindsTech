@@ -1,11 +1,19 @@
 <?php
-require 'app/config/db.php';
+// Only run from CLI, never from web
+if (php_sapi_name() !== 'cli') {
+    http_response_code(403);
+    die('This script must be run from command line only.');
+}
+
+require '../app/config/db.php';
 
 try {
     // 1. Create Mock Client
     $name = "Global Brands Ltd";
     $email = "client@globalbrands.com";
-    $pass = password_hash("client123", PASSWORD_DEFAULT);
+    // Generate a random password for demo
+    $demo_password = bin2hex(random_bytes(12));
+    $pass = password_hash($demo_password, PASSWORD_DEFAULT);
     $role = "client";
     
     $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role, status, created_at, updated_at) VALUES (?, ?, ?, ?, 'active', NOW(), NOW()) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)");
@@ -28,7 +36,10 @@ try {
     $stmt->execute([$userId, "Priority SEO Scaling", "Digital Marketing", "active", date('Y-m-d', strtotime('+6 months'))]);
     $stmt->execute([$userId, "24/7 Infrastructure Monitoring", "DevOps Support", "active", date('Y-m-d', strtotime('+1 year'))]);
 
-    echo "Mock data setup successful for client@globalbrands.com (pass: client123)";
+    echo "✓ Mock data setup successful\n";
+    echo "  Email: client@globalbrands.com\n";
+    echo "  Password: Check your email or admin panel (automatically generated)\n";
 } catch (PDOException $e) {
-    echo "Setup failed: " . $e->getMessage();
+    echo "✗ Setup failed: " . $e->getMessage() . "\n";
+    exit(1);
 }

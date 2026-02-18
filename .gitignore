@@ -1,0 +1,30 @@
+# Environment & Secrets
+.env
+.env.local
+.env.*.php
+
+# Dependencies
+vendor/
+node_modules/
+
+# Logs & Cache
+storage/logs/*
+!storage/logs/.gitkeep
+
+# Uploads
+public/uploads/*
+!public/uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+.DS_Store
+
+# Build
+/dist/
+/build/
+
+# Testing
+coverage/
+.coverage
