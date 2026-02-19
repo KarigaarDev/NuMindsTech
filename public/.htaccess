@@ -1,0 +1,34 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# Prevent directory listing
+Options -Indexes
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# HTTPS Redirect (uncomment on production)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Block direct access to sensitive files
+RewriteRule ^(\.env|\.git|app|storage) - [F,L]
+RewriteRule ^(hash\.php|test-.*\.php)$ - [F,L]
+
+# Error Pages
+ErrorDocument 404 /404.php
+
+# 3. Existing Files/Directories (serve them directly)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 4. Route all other requests to index.php (Clean URLs)
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
