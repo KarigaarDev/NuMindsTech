@@ -17,5 +17,10 @@ try {
     );
 } catch (PDOException $e) {
     error_log("Database connection failed: " . $e->getMessage());
+    // in debugging mode show the real message on screen, otherwise keep it
+    // generic to avoid leaking credentials to strangers.
+    if (Env::get('APP_DEBUG', false)) {
+        die("Database connection error: " . $e->getMessage());
+    }
     die("Database connection error. Check logs for details.");
 }

@@ -1,5 +1,19 @@
 <?php
 // public/index.php
+
+// ensure errors are captured in our project log and optionally shown
+require_once __DIR__ . '/../app/core/Env.php';
+Env::load();
+
+// PHP error configuration
+ini_set('log_errors', '1');
+ini_set('error_log', __DIR__ . '/../storage/logs/php-errors.log');
+if (Env::get('APP_DEBUG', false)) {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+}
+
 session_start();
 date_default_timezone_set('Asia/Kolkata');
 require_once '../app/config/db.php';
