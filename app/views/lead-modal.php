@@ -48,8 +48,9 @@
             </div>
 
             <!-- Form -->
-            <form action="<?= url('submit-lead.php') ?>" method="POST" class="space-y-8">
+            <form id="leadForm" action="<?= url('submit-lead.php') ?>" method="POST" class="space-y-8">
                 <?= csrf_field() ?>
+                <div id="leadFormFeedback" class="text-sm"></div>
                 
                 <div class="grid md:grid-cols-2 gap-x-8 gap-y-8">
                     <div class="space-y-2">
@@ -107,12 +108,82 @@
                                class="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-primary dark:text-white transition-all resize-none font-medium"></textarea>
                 </div>
                 
-                <button class="w-full btn-primary font-display font-extrabold py-5 rounded-2xl text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-brand-primary/20 transition-all flex items-center justify-center gap-4">
-                    Send Request
+                <button id="leadFormSubmit" class="w-full btn-primary font-display font-extrabold py-5 rounded-2xl text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-brand-primary/20 transition-all flex items-center justify-center gap-4">
+                    <span id="leadFormSubmitText">Send Request</span>
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var form = document.getElementById('leadForm');
+    var feedback = document.getElementById('leadFormFeedback');
+    var submitBtn = document.getElementById('leadFormSubmit');
+    var submitText = document.getElementById('leadFormSubmitText');
+
+    function showErrors(errors){
+        var html = '<div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded mb-4">';
+        html += '<ul class="list-disc pl-5">';
+        for(var k in errors){
+            if (Array.isArray(errors[k])){
+                errors[k].forEach(function(msg){ html += '<li>'+msg+'</li>'; });
+            } else {
+                html += '<li>'+errors[k]+'</li>';
+            }
+        }
+        html += '</ul></div>';
+        feedback.innerHTML = html;
+    }
+
+    function showSuccess(message){
+        feedback.innerHTML = '<div class="bg-green-50 border border-green-200 text-green-800 p-3 rounded mb-4">'+message+'</div>';
+    }
+
+    form.addEventListener('submit', function(e){
+        e.preventDefault();
+        feedback.innerHTML = '';
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending...';
+
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            },
+            body: formData,
+            credentials: 'same-origin'
+        }).then(function(resp){
+            if (resp.status === 422){
+                return resp.json().then(function(json){ throw { type: 'validation', data: json }; });
+            }
+            if (!resp.ok){
+                throw { type: 'error', status: resp.status };
+            }
+            return resp.json();
+        }).then(function(json){
+            if (json.success){
+                showSuccess(json.message || 'Thanks — we will contact you soon.');
+                form.reset();
+            } else {
+                showErrors({ general: json.message || 'Submission failed' });
+            }
+        }).catch(function(err){
+            if (err.type === 'validation' && err.data && err.data.errors){
+                showErrors(err.data.errors);
+            } else {
+                showErrors({ general: 'An unexpected error occurred. Please try again later.' });
+            }
+        }).finally(function(){
+            submitBtn.disabled = false;
+            submitText.textContent = 'Send Request';
+        });
+    });
+});
+</script>
 
