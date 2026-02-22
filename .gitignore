@@ -19,12 +19,16 @@ public/uploads/*
 .vscode/
 .idea/
 *.sublime-*
-.DS_Store
+.DS_store
 
 # Build
-/dist/
-/build/
+dist/
+build/
 
 # Testing
 coverage/
 .coverage
+
+# Root .htaccess
+.htaccess
+

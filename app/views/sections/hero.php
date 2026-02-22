@@ -10,7 +10,7 @@
 
         <!-- Mobile (no bg-fixed for smooth scrolling) -->
         <div class="md:hidden absolute inset-0 bg-center bg-no-repeat z-10"
-             style="background-image: url('public/assets/bulb-hero.png'); right-0 bottom-0;">
+             style="background-image: url('public/assets/bulb-hero.png'); background-size: 85%; background-position: right bottom;">
         </div>
 
         <!-- Overlay -->
