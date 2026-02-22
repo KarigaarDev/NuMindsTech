@@ -9,8 +9,8 @@
         </div>
 
         <!-- Mobile (no bg-fixed for smooth scrolling) -->
-        <div class="md:hidden absolute inset-0 bg-center bg-no-repeat z-10"
-             style="background-image: url('public/assets/bulb-hero.png'); background-size: 85%; background-position: right bottom;">
+        <div class="md:hidden absolute inset-0 bg-center bg-no-repeat z-10 bg-fixed"
+             style="background-image: url('public/assets/bulb-hero.png'); background-size: 95%; background-position: right bottom;">
         </div>
 
         <!-- Overlay -->
