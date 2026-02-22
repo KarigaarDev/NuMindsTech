@@ -8,11 +8,11 @@ Env::load();
 // PHP error configuration
 ini_set('log_errors', '1');
 ini_set('error_log', __DIR__ . '/../storage/logs/php-errors.log');
-if (Env::get('APP_DEBUG', false)) {
+if (Env::get('APP_DEBUG', false)):
     ini_set('display_errors', '1');
     ini_set('display_startup_errors', '1');
     error_reporting(E_ALL);
-}
+endif;
 
 session_start();
 date_default_timezone_set('Asia/Kolkata');
@@ -35,6 +35,8 @@ require '../app/views/header.php';
 
 <!-- HERO SECTION -->
 <?php require '../app/views/sections/hero.php'; ?>
+
+
 
 <!-- STATS STRIP -->
 <section class="relative z-20 -mt-16">
@@ -62,7 +64,8 @@ require '../app/views/header.php';
         </div>
     </div>
 </section>
-
+<!-- PROBLEM → SOLUTION SECTION -->
+<?php require '../app/views/sections/problems.php'; ?>
 
 <!-- THINGS WE ARE GOOD AT -->
 <section id="services" class="py-32 bg-white dark:bg-brand-dark overflow-hidden">
@@ -100,6 +103,9 @@ require '../app/views/header.php';
     </div>
 </section>
 
+
+<!-- PROCESS TIMELINE SECTION -->
+<?php require '../app/views/sections/process.php'; ?>
 
 <!-- CLIENTS / PARTNERS -->
 <?php if (!empty($clients)): ?>
@@ -254,68 +260,11 @@ require '../app/views/header.php';
     </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="py-20 md:py-28 bg-brand-tech dark:bg-brand-secondary relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-8 relative z-10">
-        <div class="text-center mb-24">
-            <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-accent mb-4">Testimonials</h2>
-            <h3 class="font-display text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight">
-                STRAIGHT FROM <span class="text-brand-primary">OUR CLIENTS</span> ❤️
-            </h3>
-        </div>
+<!-- TESTIMONIALS SECTION -->
+<?php require '../app/views/sections/testimonials2.php'; ?>
 
-        <div class="grid md:grid-cols-3 gap-8">
-            <!-- Testimonial 1 -->
-            <div class="bg-white dark:bg-brand-navy p-10 rounded-[2.5rem] border border-slate-100 dark:border-white/5 relative group hover:border-brand-primary/30 transition-all duration-500 shadow-sm">
-                <div class="absolute -top-12 left-1/2 -translate-x-1/2 p-2 bg-white dark:bg-brand-secondary rounded-full shadow-xl">
-                    <img src="https://ui-avatars.com/api/?name=Ali+Saif&background=2563eb&color=fff" class="w-20 h-20 rounded-full grayscale group-hover:grayscale-0 transition-all">
-                </div>
-                <div class="mt-12 text-center">
-                    <h4 class="font-display font-bold text-lg text-heading dark:text-inverse mb-1">Ali Saif</h4>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-accent">CEO, EduStream</span>
-                    <div class="my-8 text-slate-200 dark:text-slate-800 text-3xl">
-                        <i class="fa-solid fa-quote-left"></i>
-                    </div>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
-                        "The system Numinds built for our campus is exceptionally reliable. Clarity and control were exactly what we needed."
-                    </p>
-                </div>
-            </div>
-            <!-- Testimonial 2 -->
-            <div class="bg-white dark:bg-brand-navy p-10 rounded-[2.5rem] border border-slate-100 dark:border-white/5 relative group hover:border-brand-accent/30 transition-all duration-500 shadow-sm">
-                <div class="absolute -top-12 left-1/2 -translate-x-1/2 p-2 bg-white dark:bg-brand-secondary rounded-full shadow-xl">
-                    <img src="https://ui-avatars.com/api/?name=Zubair+Adil&background=06b6d4&color=fff" class="w-20 h-20 rounded-full grayscale group-hover:grayscale-0 transition-all">
-                </div>
-                <div class="mt-12 text-center">
-                    <h4 class="font-display font-bold text-lg text-heading dark:text-inverse mb-1">Zubair Adil</h4>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-accent">Director, Al-Noor NGO</span>
-                    <div class="my-8 text-slate-200 dark:text-slate-800 text-3xl">
-                        <i class="fa-solid fa-quote-left"></i>
-                    </div>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
-                        "Finally, a tech partner who understands values. Their clean-code approach has made our data management effortless."
-                    </p>
-                </div>
-            </div>
-            <!-- Testimonial 3 -->
-            <div class="bg-white dark:bg-brand-navy p-10 rounded-[2.5rem] border border-slate-100 dark:border-white/5 relative group hover:border-brand-primary/30 transition-all duration-500 shadow-sm">
-                <div class="absolute -top-12 left-1/2 -translate-x-1/2 p-2 bg-white dark:bg-brand-secondary rounded-full shadow-xl">
-                    <img src="https://ui-avatars.com/api/?name=Irfan+K&background=2563eb&color=fff" class="w-20 h-20 rounded-full grayscale group-hover:grayscale-0 transition-all">
-                </div>
-                <div class="mt-12 text-center">
-                    <h4 class="font-display font-bold text-lg text-heading dark:text-inverse mb-1">Irfan K.</h4>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-accent">Founder, Stylofur</span>
-                    <div class="my-8 text-slate-200 dark:text-slate-800 text-3xl">
-                        <i class="fa-solid fa-quote-left"></i>
-                    </div>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
-                        "High performance and no bloat. Our e-commerce conversion rates soared after we implemented the custom solution."
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- FAQ SECTION -->
+<?php require '../app/views/sections/faq.php'; ?>
 
 <!-- CALL TO ACTION FINAL -->
 <section class="py-32 bg-[color-mix(in_srgb,var(--brand-primary)_80%,white)]  dark:bg-brand-dark relative overflow-hidden">
