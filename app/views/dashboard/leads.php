@@ -5,9 +5,11 @@ $headers = ['Inquiry Details', 'Service Type', 'Status', 'Registry Date', 'Actio
 $rows = [];
 
 foreach ($leads as $lead) {
-    $statusType = match($lead['status']) {
-        'New' => 'success',
-        'Contacted' => 'info',
+    $statusType = match(strtolower($lead['status'])) {
+        'new' => 'success',
+        'contacted' => 'info',
+        'converted' => 'brand-primary',
+        'lost' => 'neutral',
         default => 'neutral'
     };
     
@@ -17,12 +19,14 @@ foreach ($leads as $lead) {
             <div class="text-[10px] font-medium text-slate-500 dark:text-slate-400">' . e($lead['email']) . ' | ' . e($lead['phone']) . '</div>
         </div>',
         '<span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">' . e($lead['service_type']) . '</span>',
-        Component::badge($lead['status'], $statusType),
+        '<div>
+            '.Component::badge(ucfirst($lead['status']), $statusType).'
+        </div>',
         '<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">' . date('d M Y', strtotime($lead['created_at'])) . '</span>',
-        '<div class="flex justify-end">
+        '<div class="flex justify-end gap-2">
             <a href="' . url('admin/lead-view?id=' . $lead['id']) . '" 
-               class="inline-flex items-center justify-center w-10 h-10 bg-white dark:bg-brand-secondary border border-slate-200 dark:border-white/10 text-slate-400 hover:text-brand-primary hover:border-brand-primary transition-all rounded-xl shadow-sm">
-                <i class="fa-solid fa-arrow-right"></i>
+               class="inline-flex items-center justify-center w-9 h-9 bg-white dark:bg-brand-secondary border border-slate-200 dark:border-white/10 text-slate-400 hover:text-brand-primary hover:border-brand-primary transition-all rounded-xl shadow-sm">
+                <i class="fa-solid fa-eye"></i>
             </a>
         </div>'
     ];

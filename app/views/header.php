@@ -36,10 +36,7 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
     <link rel="shortcut icon" href="<?= url('public/uploads/' . $thumb) ?>" type="image/png">
     <?php endif; ?>
     
-    <!-- Fonts: Outfit & Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fonts are now loaded dynamically via tailwind.php -->
 
     
     <!-- Icons: FontAwesome -->
@@ -76,29 +73,65 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
     <style>
         /* Modal Transitions */
         [x-cloak] { display: none !important; }
+
+        <?php if (setting('show_grid_bg', '1') === '1'): ?>
+        /* Global Grid Background for Sections */
+        section {
+            position: relative;
+        }
+        section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(to right, rgba(128, 128, 128, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(128, 128, 128, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+            z-index: 0;
+        }
+        .dark section::before {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        <?php endif; ?>
     </style>
 
 </head>
 
-<body 
-x-data="{ modalOpen: false }" 
-class="bg-white text-slate-900 
-       dark:bg-brand-dark dark:text-slate-200 
+<body x-data="{ modalOpen: false }" 
+class="bg-white text-heading 
+       dark:bg-brand-dark dark:text-inverse 
        font-sans antialiased 
        selection:bg-brand-accent selection:text-white 
        transition-colors duration-500">
 
-<header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300">
+
+<header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300 border-b border-white/5">
+    <!-- Global Grid Background -->
+    <div class="absolute inset-0 opacity-[0.03] dark:opacity-5 pointer-events-none -z-10 overflow-hidden">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid-header" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-header)" />
+        </svg>
+    </div>
+
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         <!-- Logo -->
         <a href="<?= url('') ?>" class="flex items-center gap-3 group">
             <div class="relative w-9 h-9 flex items-center justify-center">
                 <?php if ($logo = setting('site_thumbnail')): ?>
-                    <img src="<?= url('public/uploads/' . $logo) ?>" class="w-9 h-9 object-contain relative z-10">
+                    <img src="<?= url('public/uploads/' . $logo) ?>" class="w-9 h-9 object-contain relative z-10 transition-transform group-hover:scale-110">
                 <?php else: ?>
-                    <div class="absolute inset-0 bg-gradient-to-br from-brand-cyan to-brand-teal rounded-lg rotate-3 group-hover:rotate-6 transition-transform"></div>
-                    <div class="absolute inset-0 bg-brand-navy dark:bg-brand-dark rounded-lg -rotate-3 group-hover:-rotate-6 transition-transform"></div>
+                    <div class="absolute inset-0 bg-brand-primary rounded-xl rotate-3 group-hover:rotate-6 transition-transform shadow-lg shadow-brand-primary/20"></div>
+                    <div class="absolute inset-0 bg-brand-secondary/50 dark:bg-brand-dark rounded-xl -rotate-3 group-hover:-rotate-6 transition-transform border border-white/5"></div>
                     <span class="relative font-display font-extrabold text-white text-xl">N</span>
                 <?php endif; ?>
             </div>
@@ -107,34 +140,50 @@ class="bg-white text-slate-900
                     <?php if (setting('site_title')): ?>
                         <?= e(setting('site_title')) ?>
                     <?php else: ?>
-                        NuMinds <span class="text-brand-cyan">Tech</span>
+                        NuMinds <span class="text-brand-accent italic">Tech</span>
                     <?php endif; ?>
                 </span>
-                <span class="text-[9px] uppercase tracking-[0.3em] font-bold text-slate-400">Simple Digital Systems</span>
+                <span class="text-[9px] uppercase tracking-[0.4em] font-bold text-muted">Intelligent Digital Systems</span>
             </div>
         </a>
 
         <!-- Desktop Menu -->
         <nav class="hidden md:flex items-center space-x-10 text-[11px] font-bold uppercase tracking-widest">
-            <a href="<?= url('') ?>" class="text-slate-500 hover:text-brand-cyan dark:text-slate-400 dark:hover:text-white transition-colors">Home</a>
-            <a href="#services" class="text-slate-500 hover:text-brand-cyan dark:text-slate-400 dark:hover:text-white transition-colors">Services</a>
-            <a href="#solutions" class="text-slate-500 hover:text-brand-cyan dark:text-slate-400 dark:hover:text-white transition-colors">Portfolio</a>
+            
+            <div class="flex items-center gap-6 mr-4 border-r border-slate-200 dark:border-white/10 pr-6">
+                <a href="<?= url('') ?>" class="text-heading hover:text-brand-primary transition-colors">Home</a>
+                <a href="#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
+                <a href="#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
+            </div>
+
+            <!-- Social Links in Header -->
+            <div class="flex items-center gap-4 text-slate-400/50">
+                <?php if ($fb = setting('facebook_url')): ?>
+                    <a href="<?= e($fb) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+                <?php endif; ?>
+                <?php if ($li = setting('linkedin_url')): ?>
+                    <a href="<?= e($li) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
+                <?php endif; ?>
+                <?php if ($wa = setting('whatsapp_number')): ?>
+                    <a href="https://wa.me/<?= e(str_replace(['+', ' '], '', $wa)) ?>" target="_blank" class="hover:text-emerald-500 transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+                <?php endif; ?>
+            </div>
             
             <!-- Dark Mode Toggle -->
            <button onclick="toggleTheme()" 
-        class="w-9 h-9 rounded-full flex items-center justify-center 
-               bg-slate-100 dark:bg-brand-navy 
-               hover:scale-105 transition-all duration-300">
-                <i class="fa-solid fa-moon dark:hidden"></i>
-                <i class="fa-solid fa-sun hidden dark:inline"></i>
+                class="w-9 h-9 rounded-xl flex items-center justify-center 
+                       bg-slate-50/50 dark:bg-white/5 border border-slate-100 dark:border-white/10
+                       hover:scale-105 transition-all duration-300">
+                <i class="fa-solid fa-moon dark:hidden text-brand-navy"></i>
+                <i class="fa-solid fa-sun hidden dark:inline text-brand-accent"></i>
             </button>
 
             <?php if (Auth::check()): ?>
-                <a href="<?= url('dashboard') ?>" class="text-brand-teal">Console</a>
-                <a href="<?= url('logout') ?>" class="text-red-500">Sign Out</a>
+                <a href="<?= url('dashboard') ?>" class="text-brand-primary">Console</a>
+                <a href="<?= url('logout') ?>" class="text-rose-500 transition-colors">Sign Out</a>
             <?php else: ?>
-                <button @click="modalOpen = true" class="btn-primary text-white px-7 py-3 rounded-full shadow-lg shadow-brand-primary/20 hover:shadow-brand-primary/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 uppercase tracking-widest">
-                    Get in Touch
+                <button @click="modalOpen = true" class="bg-brand-primary text-white px-8 py-3 rounded-xl shadow-xl shadow-brand-primary/20 hover:bg-brand-primary/90 transition-all transform hover:-translate-y-0.5 active:translate-y-0 uppercase tracking-widest text-[10px]">
+                    Connect Now
                 </button>
             <?php endif; ?>
         </nav>
@@ -154,20 +203,40 @@ class="bg-white text-slate-900
 
     <!-- Mobile Menu -->
 <div id="mobileMenu" class="hidden md:hidden border-t dark:border-slate-800 bg-white dark:bg-brand-dark absolute w-full shadow-2xl transition-all duration-300">
-        <nav class="flex flex-col px-8 py-10 space-y-6 text-sm font-bold uppercase tracking-widest">
-            <a href="<?= url('') ?>" class="text-slate-600 dark:text-slate-300">Home</a>
-            <a href="#services" class="text-slate-600 dark:text-slate-300">Services</a>
-            <a href="#solutions" class="text-slate-600 dark:text-slate-300">Portfolio</a>
+        <!-- Grid Background inside mobile menu -->
+        <div class="absolute inset-0 opacity-[0.03] dark:opacity-10 pointer-events-none -z-10 overflow-hidden">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="url(#grid-header)" />
+            </svg>
+        </div>
+        
+        <nav class="flex flex-col px-8 py-10 space-y-6 text-[11px] font-bold uppercase tracking-[0.2em]">
+            <a href="<?= url('') ?>" class="text-heading hover:text-brand-primary transition-colors">Home</a>
+            <a href="#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
+            <a href="#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
             
-            <div class="pt-6 border-t dark:border-slate-800">
-            <?php if (Auth::check()): ?>
-                <a href="<?= url('dashboard') ?>" class="block mb-4 text-brand-teal">Console</a>
-                <a href="<?= url('logout') ?>" class="text-red-500">Sign Out</a>
-            <?php else: ?>
-                <button @click="modalOpen = true" class="inline-block w-full text-center btn-primary text-white py-4 rounded-xl shadow-lg shadow-brand-primary/20">
-                    Contact Us
-                </button>
-            <?php endif; ?>
+            <div class="pt-6 border-t dark:border-slate-800 space-y-6">
+                <!-- Social Links in Mobile -->
+                <div class="flex items-center gap-6 text-slate-400">
+                    <?php if ($fb = setting('facebook_url')): ?>
+                        <a href="<?= e($fb) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-facebook-f text-lg"></i></a>
+                    <?php endif; ?>
+                    <?php if ($li = setting('linkedin_url')): ?>
+                        <a href="<?= e($li) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-linkedin-in text-lg"></i></a>
+                    <?php endif; ?>
+                    <?php if ($wa = setting('whatsapp_number')): ?>
+                        <a href="https://wa.me/<?= e(str_replace(['+', ' '], '', $wa)) ?>" target="_blank" class="hover:text-emerald-500 transition-colors"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                    <?php endif; ?>
+                </div>
+
+                <?php if (Auth::check()): ?>
+                    <a href="<?= url('dashboard') ?>" class="block text-brand-primary">Console Dashboard</a>
+                    <a href="<?= url('logout') ?>" class="block text-rose-500">Sign Out</a>
+                <?php else: ?>
+                    <button @click="modalOpen = true" class="inline-block w-full text-center bg-brand-primary text-white py-4 rounded-xl shadow-lg shadow-brand-primary/20">
+                        Get in Touch
+                    </button>
+                <?php endif; ?>
             </div>
         </nav>
     </div>

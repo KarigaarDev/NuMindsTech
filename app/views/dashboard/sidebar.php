@@ -5,6 +5,13 @@ $current = basename($_SERVER['PHP_SELF'], '.php');
     
     <!-- Branding -->
     <div class="p-10 pb-6">
+        <?php if (setting('maintenance_mode') === '1'): ?>
+            <div class="absolute top-4 right-4 animate-pulse">
+                <span class="bg-rose-500/10 text-rose-500 text-[8px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-rose-500/20">
+                    Maintenance Active
+                </span>
+            </div>
+        <?php endif; ?>
         <a href="<?= url('') ?>" class="flex items-center gap-4 group">
             <div class="relative w-10 h-10 flex items-center justify-center">
                 <?php if ($logo = setting('site_thumbnail')): ?>
@@ -40,6 +47,12 @@ $current = basename($_SERVER['PHP_SELF'], '.php');
                 Overview
             </a>
 
+            <a href="<?= url('admin/analytics.php') ?>" 
+               class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-2xl <?= $current === 'analytics' ? 'bg-brand-primary text-white shadow-xl shadow-brand-primary/20' : 'text-slate-400 hover:text-white hover:bg-white/5' ?>">
+                <i class="fa-solid fa-chart-line w-5 text-center text-sm"></i>
+                Analytics
+            </a>
+
             <a href="<?= url('items') ?>" 
                class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-2xl <?= $current === 'items' ? 'bg-brand-primary text-white shadow-xl shadow-brand-primary/20' : 'text-slate-400 hover:text-white hover:bg-white/5' ?>">
                 <i class="fa-solid fa-briefcase w-5 text-center text-sm"></i>
@@ -64,6 +77,12 @@ $current = basename($_SERVER['PHP_SELF'], '.php');
                 Leads
             </a>
 
+            <a href="<?= url('admin/testimonials') ?>" 
+               class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-2xl <?= $current === 'testimonials' ? 'bg-brand-primary text-white shadow-xl shadow-brand-primary/20' : 'text-slate-400 hover:text-white hover:bg-white/5' ?>">
+                <i class="fa-solid fa-comment-dots w-5 text-center text-sm"></i>
+                Testimonials
+            </a>
+
             <p class="px-4 text-[9px] font-bold text-slate-600 uppercase tracking-[0.4em] mt-10 mb-4">System</p>
 
             <a href="<?= url('users') ?>" 
@@ -72,9 +91,15 @@ $current = basename($_SERVER['PHP_SELF'], '.php');
                 Team
             </a>
 
+            <a href="<?= url('admin/themes.php') ?>" 
+               class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-2xl <?= $current === 'themes' ? 'bg-brand-primary text-white shadow-xl shadow-brand-primary/20' : 'text-slate-400 hover:text-white hover:bg-white/5' ?>">
+                <i class="fa-solid fa-paintbrush w-5 text-center text-sm"></i>
+                Appearance
+            </a>
+
             <a href="<?= url('settings') ?>" 
                class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-2xl <?= $current === 'settings' ? 'bg-brand-primary text-white shadow-xl shadow-brand-primary/20' : 'text-slate-400 hover:text-white hover:bg-white/5' ?>">
-                <i class="fa-solid fa-sliders w-5 text-center text-sm"></i>
+                <i class="fa-solid fa-gear w-5 text-center text-sm"></i>
                 Settings
             </a>
         <?php else: ?>

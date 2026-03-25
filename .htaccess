@@ -23,6 +23,10 @@ RewriteRule ^(hash\.php|test-.*\.php)$ - [F,L]
 # Block access to .env.* files
 RewriteRule ^\.env - [F,L]
 
+# SEO Routes
+RewriteRule ^sitemap\.xml$ public/sitemap.php [L]
+RewriteRule ^robots\.txt$ public/robots.txt.php [L]
+
 # Error Pages
 ErrorDocument 404 /numindsTech/public/404.php
 
@@ -34,6 +38,8 @@ RewriteRule ^admin/leads$ admin/leads.php [L]
 RewriteRule ^admin/lead-view$ admin/lead-view.php [L]
 RewriteRule ^admin/lead-remark$ admin/lead-remark.php [L]
 RewriteRule ^admin/item-delete$ admin/item-delete.php [L]
+RewriteRule ^admin/testimonials$ admin/testimonials.php [L]
+RewriteRule ^admin/testimonials-delete$ admin/testimonials-delete.php [L]
 
 # 2. Public Routes (Clean URLs)
 RewriteRule ^$ public/index.php [L]
@@ -49,6 +55,7 @@ RewriteRule ^portfolio-delete$ public/portfolio-delete.php [L]
 RewriteRule ^users$ public/users.php [L]
 RewriteRule ^settings$ public/settings.php [L]
 RewriteRule ^maintenance$ public/maintenance.php [L]
+RewriteRule ^portfolio/([a-zA-Z0-9-]+)$ public/portfolio-details.php?slug=$1 [L]
 RewriteRule ^submit-lead$ public/submit-lead.php [L]
 
 # 3. Existing Files/Directories

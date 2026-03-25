@@ -3,6 +3,8 @@
  * Base Controller Class
  * Provides common functionality for all controllers
  */
+require_once __DIR__ . '/../core/ui-components.php';
+
 abstract class BaseController {
     protected $pdo;
     protected $userId;

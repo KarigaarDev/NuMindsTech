@@ -19,11 +19,14 @@ use UI\Component;
         <button @click="activeTab = 'general'" :class="activeTab === 'general' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
             <i class="fa-solid fa-globe"></i> General
         </button>
+        <button @click="activeTab = 'layout'" :class="activeTab === 'layout' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-layer-group"></i> Layout
+        </button>
         <button @click="activeTab = 'social'" :class="activeTab === 'social' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-share-nodes"></i> Social Links
+            <i class="fa-solid fa-share-nodes"></i> Social
         </button>
         <button @click="activeTab = 'contact'" :class="activeTab === 'contact' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-address-book"></i> Contact Info
+            <i class="fa-solid fa-address-book"></i> Contact
         </button>
     </div>
 
@@ -83,14 +86,33 @@ use UI\Component;
             ', 'Core Identity', 'fa-display') ?>
         </div>
 
+        <!-- LAYOUT SETTINGS -->
+        <div x-show="activeTab === 'layout'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <?= Component::card('
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                    ' . Component::checkbox('show_hero', 'Show Hero Section', ($settings['show_hero'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_stats', 'Show Stats Counter', ($settings['show_stats'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_problems', 'Show Our Approach (Problems)', ($settings['show_problems'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_services', 'Show Services Grid', ($settings['show_services'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_process', 'Show Our Process Step', ($settings['show_process'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_portfolio', 'Show Portfolio Showcase', ($settings['show_portfolio'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_testimonials', 'Show Client Praises', ($settings['show_testimonials'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_blogs', 'Show Dev Diaries (Blog)', ($settings['show_blogs'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_cta', 'Show Final CTA Section', ($settings['show_cta'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_grid_bg', 'Global Grid Background', ($settings['show_grid_bg'] ?? '1') === '1') . '
+                </div>
+            ', 'Homepage Visibility Control', 'fa-layer-group') ?>
+        </div>
+
         <!-- SOCIAL LINKS -->
         <div x-show="activeTab === 'social'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <?= Component::card('
                 <div class="grid md:grid-cols-2 gap-x-8 gap-y-2">
-                    ' . Component::input('social_facebook', 'Facebook URL', $settings['social_facebook'] ?? '', 'url', 'https://facebook.com/...') . '
-                    ' . Component::input('social_twitter', 'Twitter / X URL', $settings['social_twitter'] ?? '', 'url', 'https://x.com/...') . '
-                    ' . Component::input('social_instagram', 'Instagram URL', $settings['social_instagram'] ?? '', 'url', 'https://instagram.com/...') . '
-                    ' . Component::input('social_linkedin', 'LinkedIn Profile', $settings['social_linkedin'] ?? '', 'url', 'https://linkedin.com/in/...') . '
+                    ' . Component::input('facebook_url', 'Facebook URL', $settings['facebook_url'] ?? '', 'url', 'https://facebook.com/...') . '
+                    ' . Component::input('twitter_url', 'Twitter / X URL', $settings['twitter_url'] ?? '', 'url', 'https://x.com/...') . '
+                    ' . Component::input('instagram_url', 'Instagram URL', $settings['instagram_url'] ?? '', 'url', 'https://instagram.com/...') . '
+                    ' . Component::input('linkedin_url', 'LinkedIn Profile', $settings['linkedin_url'] ?? '', 'url', 'https://linkedin.com/in/...') . '
+                    ' . Component::input('whatsapp_number', 'WhatsApp Number', $settings['whatsapp_number'] ?? '', 'text', '+1234567890') . '
                 </div>
             ', 'Social Integration', 'fa-share-nodes') ?>
         </div>

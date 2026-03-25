@@ -10,5 +10,5 @@ Auth::requireLogin();
 
 // Instantiate controller and display dashboard
 $controller = new DashboardController($pdo);
-$controller->overview();
+$controller->index();
 

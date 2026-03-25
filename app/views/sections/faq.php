@@ -20,7 +20,7 @@
                     </h4>
                     <i class="fa-solid fa-chevron-down text-brand-primary transition-transform" :class="{ 'rotate-180': open === 1 }"></i>
                 </button>
-                <div x-show="open === 1" class="px-8 py-6 bg-slate-50 dark:bg-white/2.5 border-t border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400">
+                <div x-show="open === 1" class="px-8 py-6 bg-slate-50 dark:bg-white/2.5 border-t border-slate-200 dark:border-white/10 text-body dark:text-muted">
                     <p class="mb-4">It depends on complexity:</p>
                     <ul class="list-disc pl-5 space-y-2">
                         <li><strong>Simple branding site:</strong> 3-4 weeks</li>
@@ -180,7 +180,7 @@
             <h3 class="font-display text-2xl font-bold text-heading dark:text-inverse mb-4">
                 Still have questions?
             </h3>
-            <p class="text-slate-600 dark:text-slate-400 mb-6">
+            <p class="text-body dark:text-muted mb-6">
                 Let's chat. No obligation. No sales pressure.
             </p>
             <button @click="modalOpen = true" class="btn-primary px-8 py-4 rounded-xl font-display font-bold text-sm uppercase tracking-widest hover:scale-105 transition-all">

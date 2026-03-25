@@ -11,13 +11,13 @@ require_once __DIR__ . '../../../core/helpers.php';
     <title><?= $title ?? 'NuMinds Console' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <!-- Fonts: Outfit \u0026 Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600\u0026family=Outfit:wght@400;600;700;800\u0026display=swap" rel="stylesheet">
+    <!-- Fonts are now loaded dynamically via tailwind.php -->
     
     <!-- Icons: FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Charts: Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -47,6 +47,37 @@ require_once __DIR__ . '../../../core/helpers.php';
             }
         }
     </script>
+    <style>
+        <?php if (setting('show_grid_bg', '1') === '1'): ?>
+        /* Global Grid Background for Admin Content/Main */
+        main {
+            position: relative;
+        }
+        main::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(to right, rgba(128, 128, 128, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(128, 128, 128, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+            z-index: 0;
+        }
+        .dark main::before {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        
+        /* Ensure main content is above the grid */
+        main > div {
+            position: relative;
+            z-index: 10;
+        }
+        <?php endif; ?>
+    </style>
 </head>
 
 <body class="bg-slate-50 dark:bg-brand-secondary text-slate-900 dark:text-slate-200 font-sans antialiased transition-colors duration-300">

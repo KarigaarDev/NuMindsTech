@@ -132,6 +132,30 @@ class LeadsController extends BaseController {
     }
 
     /**
+     * Update lead status
+     */
+    public function updateStatus($leadId, $status) {
+        $this->requireAuth();
+        $this->requireAdmin();
+
+        $allowedStatuses = ['new', 'contacted', 'converted', 'lost'];
+        if (!in_array($status, $allowedStatuses)) {
+            http_response_code(400);
+            die('Invalid status');
+        }
+
+        $stmt = $this->pdo->prepare("UPDATE leads SET status = ? WHERE id = ?");
+        $result = $stmt->execute([$status, $leadId]);
+
+        Logger::adminAction($this->userId, 'UPDATE_LEAD_STATUS', "Moved lead #$leadId to $status", [
+            'lead_id' => $leadId,
+            'status' => $status
+        ]);
+
+        return $result;
+    }
+
+    /**
      * Add remark to lead
      */
     public function addRemark($leadId, $remark) {

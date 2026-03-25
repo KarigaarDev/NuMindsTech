@@ -1,13 +1,17 @@
 <!-- PROCESS TIMELINE SECTION -->
 <section class="py-20 md:py-32 bg-brand-tech dark:bg-brand-secondary">
     <div class="max-w-7xl mx-auto px-8">
-        <div class="text-center mb-24">
-            <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-accent mb-4">Our Approach</h2>
-            <h3 class="font-display text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight">
-                How we <span class="text-brand-primary">build your system</span>
+        <!-- Section Header -->
+        <div class="text-center mb-24 min-h-[140px] flex flex-col justify-center animate-in fade-in slide-in-from-top-10 duration-1000">
+            <h2 class="text-sm font-display font-extrabold uppercase tracking-[0.4em] text-accent mb-4 drop-shadow-sm">
+                Execution Framework
+            </h2>
+            <h3 class="font-display text-5xl md:text-7xl font-black text-heading dark:text-inverse tracking-tighter leading-none mb-6">
+                From Raw Idea to <br class="hidden md:block">
+                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">Digital Masterpiece.</span>
             </h3>
-            <p class="text-slate-500 dark:text-slate-400 mt-6 max-w-2xl mx-auto">
-                Transparent, sprint-based delivery. You see progress every week. No surprises.
+            <p class="text-lg text-body dark:text-muted max-w-2xl mx-auto font-medium leading-relaxed italic opacity-80">
+                A disciplined engineering approach designed for predictability and scale.
             </p>
         </div>
 

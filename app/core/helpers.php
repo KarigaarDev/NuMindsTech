@@ -27,6 +27,7 @@ require_once __DIR__ . '/Validator.php';
 require_once __DIR__ . '/RateLimiter.php';
 require_once __DIR__ . '/Logger.php';
 require_once __DIR__ . '/Paginator.php';
+require_once __DIR__ . '/Analytics.php';
 require_once __DIR__ . '/ui-components.php';
 
 if (!function_exists('csrf_field')) {
@@ -39,4 +40,5 @@ if (!function_exists('csrf_field')) {
 if (isset($pdo)) {
     getSiteSettings($pdo);
     checkMaintenance($pdo);
+    Analytics::track($pdo);
 }
