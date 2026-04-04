@@ -95,18 +95,36 @@ require '../app/views/header.php';
 
 <!-- THINGS WE ARE GOOD AT -->
 <?php if (setting('show_services', '1') === '1'): ?>
-<section id="services" class="py-32 bg-white dark:bg-brand-dark overflow-hidden">
-    <div class="max-w-7xl mx-auto px-8">
-        <div class="text-center mb-20">
-            <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-primary mb-4">Our Expertise</h2>
-            <h3 class="font-display text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight uppercase">
-                Expertise <span class="text-brand-accent">Beyond Excellence</span> 🎯<br/>
-                <span class="text-lg font-medium text-muted mt-4 block lowercase italic">Over 4+ Years of Innovative Solutions</span>
+<section id="services" class="py-20 md:py-28 bg-white dark:bg-brand-dark relative overflow-hidden">
+
+    <!-- 🔲 Subtle Grid Background -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+         style="background-image: linear-gradient(to right, #00000010 1px, transparent 1px), linear-gradient(to bottom, #00000010 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
+
+        <!-- Heading -->
+        <div class="text-center mb-16 md:mb-20">
+            <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-primary mb-4">
+                Our Expertise
+            </h2>
+
+            <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight uppercase leading-tight">
+                Expertise 
+                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
+                    Beyond Excellence
+                </span> 🎯
             </h3>
+
+            <p class="text-sm sm:text-base text-muted mt-4 italic">
+                Over 4+ Years of Innovative Solutions
+            </p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Service cards -->
+        <!-- 🔥 Responsive Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+
             <?php 
             $services = [
                 ['icon' => 'fa-laptop-code', 'title' => 'Business Websites', 'desc' => 'High-performance digital profiles for schools and organizations.', 'color' => 'brand-primary'],
@@ -114,19 +132,61 @@ require '../app/views/header.php';
                 ['icon' => 'fa-gears', 'title' => 'Custom Web Apps', 'desc' => 'Tailored internal dashboards built for your workflow.', 'color' => 'brand-primary'],
                 ['icon' => 'fa-rocket', 'title' => 'SEO & Speed', 'desc' => 'Ensuring your brand stands out in digital noise.', 'color' => 'brand-accent'],
             ];
+
             foreach($services as $s): ?>
-            <div class="group p-8 bg-white dark:bg-brand-navy border border-slate-100 dark:border-white/5 rounded-3xl hover:border-<?= $s['color'] ?>/40 transition-all duration-500 hover:-translate-y-2">
-                <div class="w-14 h-14 bg-white dark:bg-brand-secondary rounded-2xl flex items-center justify-center text-<?= $s['color'] ?> mb-8 shadow-sm group-hover:shadow-<?= $s['color'] ?>/20 transition-all">
-                    <i class="fa-solid <?= $s['icon'] ?> text-2xl"></i>
+
+            <div class="group relative p-5 sm:p-7 
+                        bg-white/70 dark:bg-brand-navy/60 backdrop-blur-md
+                        border border-slate-200 dark:border-white/10
+                        rounded-2xl sm:rounded-3xl
+                        shadow-md hover:shadow-2xl hover:shadow-<?= $s['color'] ?>/20
+                        transition-all duration-500 hover:-translate-y-2">
+
+                <!-- Icon -->
+                <div class="w-12 h-12 sm:w-14 sm:h-14 
+                            bg-white dark:bg-brand-secondary 
+                            rounded-xl sm:rounded-2xl 
+                            flex items-center justify-center 
+                            text-<?= $s['color'] ?> 
+                            mb-5 sm:mb-6 
+                            shadow-sm group-hover:shadow-<?= $s['color'] ?>/20 
+                            transition-all duration-300">
+
+                    <i class="fa-solid <?= $s['icon'] ?> text-lg sm:text-2xl"></i>
                 </div>
-                <h3 class="font-display text-lg font-bold mb-4 dark:text-white group-hover:text-<?= $s['color'] ?> transition-colors"><?= $s['title'] ?></h3>
-                <p class="text-xs text-body dark:text-muted leading-relaxed font-medium mb-8"><?= $s['desc'] ?></p>
-                <button @click="modalOpen = true" class="text-[10px] font-bold uppercase tracking-widest text-<?= $s['color'] ?> flex items-center gap-2 group/link">
-                    Connect now <i class="fa-solid fa-arrow-right group-hover/link:translate-x-1 transition-transform"></i>
+
+                <!-- Title -->
+                <h3 class="font-display text-sm sm:text-lg font-bold mb-2 sm:mb-3 
+                           text-heading dark:text-white 
+                           group-hover:text-<?= $s['color'] ?> transition-colors">
+                    <?= $s['title'] ?>
+                </h3>
+
+                <!-- Description -->
+                <p class="text-[11px] sm:text-xs text-body dark:text-muted leading-relaxed font-medium mb-4 sm:mb-6">
+                    <?= $s['desc'] ?>
+                </p>
+
+                <!-- CTA -->
+                <button @click="modalOpen = true" 
+                        class="inline-flex items-center gap-2 
+                               text-[10px] font-bold uppercase tracking-widest 
+                               text-<?= $s['color'] ?> 
+                               bg-<?= $s['color'] ?>/10 
+                               px-3 py-2 rounded-lg
+                               hover:bg-<?= $s['color'] ?> hover:text-white
+                               transition-all duration-300">
+
+                    Connect 
+                    <i class="fa-solid fa-arrow-right text-[10px] transition-transform group-hover:translate-x-1"></i>
                 </button>
+
             </div>
+
             <?php endforeach; ?>
+
         </div>
+
     </div>
 </section>
 <?php endif; ?>
@@ -137,93 +197,209 @@ require '../app/views/header.php';
 <?php endif; ?>
 
 <!-- CLIENTS / PARTNERS -->
+<!-- CLIENTS / PARTNERS -->
 <?php if (!empty($clients)): ?>
-<section id="clients" class="py-20 bg-white dark:bg-brand-dark">
-    <div class="max-w-7xl mx-auto px-8 relative z-10">
-        <div class="text-center mb-16">
-            <h2 class="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-primary mb-4">Trusted Networks</h2>
-            <h3 class="font-display text-3xl md:text-4xl font-extrabold text-heading dark:text-inverse tracking-tight">
-                Partnering with <span class="text-brand-accent">Ambitious Organizations</span>
+<section id="clients" class="py-24 md:py-32 bg-white dark:bg-brand-dark relative overflow-hidden">
+
+    <!-- GRID BACKGROUND -->
+    <div class="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style="background-image: linear-gradient(to right, #00000010 1px, transparent 1px), linear-gradient(to bottom, #00000010 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+
+        <!-- HEADER -->
+        <div class="text-center mb-20 md:mb-24">
+            <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-brand-primary mb-4">
+                Trusted Networks
+            </h2>
+
+            <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-heading dark:text-inverse tracking-tight leading-tight">
+                Partnering with 
+                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
+                    ambitious brands
+                </span>
             </h3>
         </div>
 
-        <div class="swiper clientSwiper py-12">
-            <div class="swiper-wrapper items-center">
-                <?php foreach($clients as $c): ?>
-                    <div class="swiper-slide px-4">
-                        <?php if (!empty($c['link'])): ?><a href="<?= e($c['link']) ?>" target="_blank" class="block"><?php endif; ?>
-                        <div class="aspect-square w-full max-w-[120px] mx-auto bg-white dark:bg-brand-navy rounded-2xl border border-slate-100 dark:border-white/5 flex items-center justify-center p-6 grayscale hover:grayscale-0 transition-all duration-500 hover:shadow-xl hover:shadow-brand-primary/5 hover:-translate-y-2 group shadow-sm">
-                            <img src="<?= url('public/uploads/clients/' . $c['logo']) ?>" alt="<?= e($c['name']) ?>" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110">
+        <?php 
+        // Duplicate for seamless loop
+        $loopClients = array_merge($clients, $clients); 
+        ?>
+
+        <!-- 🔥 MARQUEE WRAPPER -->
+        <div class="relative overflow-hidden">
+
+            <!-- GRADIENT FADE (LEFT RIGHT) -->
+            <div class="pointer-events-none absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-white dark:from-brand-dark to-transparent z-10"></div>
+            <div class="pointer-events-none absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-white dark:from-brand-dark to-transparent z-10"></div>
+
+            <!-- SCROLL TRACK -->
+            <div class="flex gap-6 md:gap-10 animate-marquee w-max">
+
+                <?php foreach($loopClients as $c): ?>
+                    
+                    <?php if (!empty($c['link'])): ?>
+                        <a href="<?= e($c['link']) ?>" target="_blank" class="group">
+                    <?php endif; ?>
+
+                    <div class="flex-shrink-0 w-[120px] sm:w-[140px] md:w-[160px]">
+
+                        <div class="h-[100px] md:h-[120px] flex items-center justify-center
+                            rounded-2xl md:rounded-3xl 
+                            bg-white/70 dark:bg-brand-navy/60 backdrop-blur-md
+                            border border-slate-200 dark:border-white/10
+                            shadow-sm hover:shadow-xl hover:shadow-brand-primary/10
+                            transition-all duration-500 
+                            hover:-translate-y-2 group">
+
+                            <img 
+                                src="<?= url('public/uploads/clients/' . $c['logo']) ?>" 
+                                alt="<?= e($c['name']) ?>" 
+                                class="max-h-[40px] md:max-h-[50px] object-contain 
+                                grayscale opacity-70 
+                                transition duration-500 
+                                group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+                            >
+
                         </div>
-                        <?php if (!empty($c['link'])): ?></a><?php endif; ?>
+
                     </div>
+
+                    <?php if (!empty($c['link'])): ?>
+                        </a>
+                    <?php endif; ?>
+
                 <?php endforeach; ?>
+
             </div>
+
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function(){
-                if (typeof Swiper !== 'undefined') {
-                    new Swiper('.clientSwiper', {
-                        loop: true,
-                        autoplay: { delay: 2000, disableOnInteraction: false },
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                        breakpoints: {
-                            640: { slidesPerView: 3 },
-                            1024: { slidesPerView: 5 },
-                            1280: { slidesPerView: 6 }
-                        }
-                    });
-                }
-            });
-        </script>
     </div>
+
+    <!-- 🔥 MARQUEE ANIMATION -->
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            animation: marquee 25s linear infinite;
+        }
+
+        /* Pause on hover (premium feel) */
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+    </style>
+
 </section>
 <?php endif; ?>
 
 <!-- PORTFOLIO / SHOWCASE -->
 <?php if (setting('show_portfolio', '1') === '1'): ?>
-<section id="solutions" class="py-20 md:py-28 bg-brand-tech dark:bg-brand-secondary">
-    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+<section id="solutions" class="py-20 md:py-32 bg-brand-tech dark:bg-brand-secondary relative overflow-hidden">
+
+    <!-- GRID BACKGROUND -->
+    <div class="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style="background-image: linear-gradient(to right, #ffffff10 1px, transparent 1px), linear-gradient(to bottom, #ffffff10 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
-        <!-- Section Heading -->
-        <div class="text-center mb-16 md:mb-20">
-            <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-brand-primary mb-4">
+        <!-- HEADER -->
+        <div class="text-center mb-20 md:mb-28">
+            <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-brand-primary mb-4">
                 Case Studies
             </h2>
-            <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight leading-tight uppercase">
-                WEBSITES THAT MAKE<br class="hidden sm:block"/>
-                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">your brand unique</span>
+
+            <h3 class="font-display text-3xl sm:text-4xl md:text-6xl font-black text-heading dark:text-inverse tracking-tight leading-tight">
+                WEBSITES THAT MAKE <br class="hidden md:block"/>
+                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
+                    your brand unique
+                </span>
             </h3>
         </div>
 
-        <!-- Portfolio Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-16">
-            
+        <?php if (empty($homeItems)): ?>
+
+            <!-- EMPTY STATE -->
+            <div class="text-center py-20 text-muted uppercase tracking-widest text-[10px] font-bold">
+                Works coming soon...
+            </div>
+
+        <?php else: ?>
+
+        <!-- PREMIUM GRID -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10 mb-16">
+
             <?php foreach($homeItems as $item): 
                 $slug = str_replace([' ', '/', '\\'], '-', strtolower($item['title']));
             ?>
-                <a href="<?= url('portfolio/' . $slug) ?>" class="group relative rounded-2xl overflow-hidden bg-white dark:bg-brand-navy border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2">
-                    <div class="relative aspect-[4/5] overflow-hidden">
-                        <img src="<?= url('public/uploads/') . $item['featured_image'] ?>" alt="<?= e($item['title']) ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                            <h5 class="font-display font-bold text-inverse text-sm sm:text-base mb-1 transform group-hover:translate-y-0 translate-y-2 transition-transform duration-500"><?= e($item['title']) ?></h5>
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent"><?= e($item['category']) ?></p>
+
+            <a href="<?= url('portfolio/' . $slug) ?>" class="group block">
+
+                <div class="rounded-2xl md:rounded-3xl overflow-hidden 
+                            bg-white/70 dark:bg-brand-navy/60 backdrop-blur-md
+                            border border-slate-200 dark:border-white/10
+                            shadow-md hover:shadow-2xl hover:shadow-brand-primary/20
+                            transition-all duration-500 hover:-translate-y-2">
+
+                    <!-- IMAGE BLOCK -->
+                    <div class="p-3 md:p-4">
+                        <div class="rounded-xl overflow-hidden bg-black/5 dark:bg-black/20">
+
+                            <img 
+                                src="<?= url('public/uploads/') . $item['featured_image'] ?>" 
+                                alt="<?= e($item['title']) ?>" 
+                                class="w-full h-auto object-contain 
+                                transition duration-700 group-hover:scale-105"
+                            >
+
                         </div>
                     </div>
-                </a>
+
+                    <!-- CONTENT -->
+                    <div class="px-4 pb-5 md:px-5 md:pb-6">
+
+                        <p class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-brand-accent mb-2">
+                            <?= e($item['category']) ?>
+                        </p>
+
+                        <h5 class="font-display font-bold text-heading dark:text-inverse text-sm md:text-base leading-tight">
+                            <?= e($item['title']) ?>
+                        </h5>
+
+                    </div>
+
+                </div>
+
+            </a>
+
             <?php endforeach; ?>
+
         </div>
 
+        <!-- CTA -->
         <?php if (count($homeItems) >= 4): ?>
-            <div class="text-center">
-                <a href="<?= url('works.php') ?>" class="inline-block w-full sm:w-auto btn-primary px-10 py-5 rounded-xl font-display font-bold text-sm uppercase tracking-widest shadow-xl shadow-brand-primary/20 transition-all text-center hover:scale-105">
-                    VIEW MORE WORKS <i class="fa-solid fa-arrow-right ml-2"></i>
-                </a>
-            </div>
+        <div class="text-center">
+            <a href="<?= url('works.php') ?>" 
+               class="inline-block w-full sm:w-auto px-10 py-5 rounded-xl 
+               font-display font-bold text-sm uppercase tracking-widest text-white 
+               bg-gradient-to-r from-brand-primary to-brand-accent 
+               shadow-lg hover:shadow-2xl hover:shadow-brand-primary/40 
+               transition duration-300 hover:scale-105">
+
+                VIEW MORE WORKS 
+                <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+        </div>
         <?php endif; ?>
+
+        <?php endif; ?>
+
     </div>
 </section>
 <?php endif; ?>
@@ -275,10 +451,10 @@ require '../app/views/header.php';
 
 <!-- CALL TO ACTION FINAL -->
 <?php if (setting('show_cta', '1') === '1'): ?>
-<section class="py-32 bg-[color-mix(in_srgb,var(--brand-primary)_80%,white)] dark:bg-brand-dark relative overflow-hidden">
+<section class="py-32 bg-[color-mix(in_srgb,var(--brand-primary)_80%,white)] dark:bg-brand-dark relative overflow-hidden bg-scroll bg-no-repeat bg-right-bottom bg-[length:15rem] md:bg-[length:22rem] lg:bg-[length:30rem]" style="background-image: url('<?= url('assets/phone.png') ?>');">
     <div class="max-w-7xl mx-auto px-8 relative z-10 text-center">
         <h4 class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60 mb-8">YOUR WEBSITE IS THE FIRST THING THEY NOTICE.</h4>
-        <h3 class="font-display text-4xl md:text-6xl font-extrabold text-white mb-12 tracking-tight">
+         <h3 class="font-display text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight mb-12">
             make it <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">unforgettable!</span>
         </h3>
         

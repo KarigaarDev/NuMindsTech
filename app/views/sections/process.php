@@ -1,172 +1,165 @@
 <!-- PROCESS TIMELINE SECTION -->
-<section class="py-20 md:py-32 bg-brand-tech dark:bg-brand-secondary">
-    <div class="max-w-7xl mx-auto px-8">
-        <!-- Section Header -->
-        <div class="text-center mb-24 min-h-[140px] flex flex-col justify-center animate-in fade-in slide-in-from-top-10 duration-1000">
-            <h2 class="text-sm font-display font-extrabold uppercase tracking-[0.4em] text-accent mb-4 drop-shadow-sm">
-                Execution Framework
+<section class="py-20 md:py-32 bg-brand-tech dark:bg-brand-secondary relative overflow-hidden">
+
+    <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+
+        <!-- HEADER -->
+        <div class="text-center mb-20 md:mb-28">
+            <h2 class="text-xs font-display font-extrabold uppercase tracking-[0.4em] text-accent mb-4">
+                How We Work
             </h2>
-            <h3 class="font-display text-5xl md:text-7xl font-black text-heading dark:text-inverse tracking-tighter leading-none mb-6">
-                From Raw Idea to <br class="hidden md:block">
-                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">Digital Masterpiece.</span>
+
+            <h3 class="font-display text-3xl sm:text-4xl md:text-6xl font-black text-heading dark:text-inverse tracking-tight leading-tight mb-6">
+                From simple ideas to <br class="hidden md:block">
+                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
+                    working reality.
+                </span>
             </h3>
-            <p class="text-lg text-body dark:text-muted max-w-2xl mx-auto font-medium leading-relaxed italic opacity-80">
-                A disciplined engineering approach designed for predictability and scale.
+
+            <p class="text-base md:text-lg text-body dark:text-muted max-w-2xl mx-auto">
+                A simple, stress-free process designed to keep you in the loop and deliver exactly what you need.
             </p>
         </div>
 
-        <div class="grid md:grid-cols-4 gap-8 mb-16">
-            <!-- Phase 1 -->
-            <div class="relative">
-                <div class="md:hidden mb-8 h-1 bg-gradient-to-r from-brand-primary to-transparent"></div>
-                <div class="flex flex-col">
-                    <!-- Timeline dot -->
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="flex-shrink-0 w-12 h-12 bg-brand-primary text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
-                            1
-                        </div>
-                        <div class="hidden md:block h-1 flex-1 bg-slate-200 dark:bg-white/10"></div>
-                    </div>
+        <!-- GRID -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 relative">
 
-                    <!-- Content -->
-                    <div class="bg-white dark:bg-brand-navy p-8 rounded-2xl border border-slate-100 dark:border-white/5">
-                        <h4 class="font-display font-bold text-xl text-heading dark:text-inverse mb-3">Discovery</h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            We dig into your goals, users, constraints & budget. Collaborative workshops with your team.
-                        </p>
-                        <div class="space-y-2 text-[10px] font-semibold text-brand-primary">
-                            <p>⏱ <span class="text-slate-500 dark:text-slate-400">5-7 days</span></p>
-                            <p>📋 <span class="text-slate-500 dark:text-slate-400">Deliverables: Requirements doc, tech proposal</span></p>
-                        </div>
+            <!-- LINE (DESKTOP ONLY) -->
+            <div class="hidden lg:block absolute top-[42px] left-[10%] right-[10%] h-[2px] 
+                bg-gradient-to-r from-brand-primary/20 via-brand-accent/30 to-brand-primary/20 
+                rounded-full z-0">
+            </div>
+
+            <!-- ITEM -->
+            <!-- Phase 1 -->
+            <div class="relative z-10 group text-center">
+                <div class="relative mb-6 flex justify-center">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-brand-navy rounded-full 
+                        shadow-lg border-4 border-brand-tech dark:border-brand-secondary 
+                        flex items-center justify-center 
+                        transition duration-500 group-hover:scale-110">
+
+                        <span class="absolute text-4xl md:text-5xl font-black text-brand-primary/10 -top-2 -right-2">1</span>
+                        <i class="fa-solid fa-lightbulb text-lg md:text-2xl text-brand-primary"></i>
                     </div>
+                </div>
+
+                <div class="bg-white dark:bg-brand-navy p-5 md:p-8 rounded-2xl md:rounded-3xl 
+                    border border-slate-100 dark:border-white/5 
+                    shadow-md hover:shadow-xl 
+                    transition duration-300 hover:-translate-y-2">
+
+                    <h4 class="font-display font-bold text-base md:text-xl text-heading dark:text-inverse mb-3">
+                        Let's Talk
+                    </h4>
+
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                        We listen to your ideas, understand your business goals, and create a clear plan together.
+                    </p>
+
+                    <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-primary">
+                        🎯 1 Week
+                    </span>
                 </div>
             </div>
 
             <!-- Phase 2 -->
-            <div class="relative">
-                <div class="md:hidden mb-8 h-1 bg-gradient-to-r from-brand-accent to-transparent"></div>
-                <div class="flex flex-col">
-                    <!-- Timeline dot -->
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="flex-shrink-0 w-12 h-12 bg-brand-accent text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
-                            2
-                        </div>
-                        <div class="hidden md:block h-1 flex-1 bg-slate-200 dark:bg-white/10"></div>
-                    </div>
+            <div class="relative z-10 group text-center">
+                <div class="relative mb-6 flex justify-center">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-brand-navy rounded-full 
+                        shadow-lg border-4 border-brand-tech dark:border-brand-secondary 
+                        flex items-center justify-center 
+                        transition duration-500 group-hover:scale-110">
 
-                    <!-- Content -->
-                    <div class="bg-white dark:bg-brand-navy p-8 rounded-2xl border border-slate-100 dark:border-white/5">
-                        <h4 class="font-display font-bold text-xl text-heading dark:text-inverse mb-3">Design & Architecture</h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            Wireframes, UI, database design, security audit. You approve before we code a single line.
-                        </p>
-                        <div class="space-y-2 text-[10px] font-semibold text-brand-primary">
-                            <p>⏱ <span class="text-slate-500 dark:text-slate-400">10-14 days</span></p>
-                            <p>📋 <span class="text-slate-500 dark:text-slate-400">Deliverables: Designs, API specs, architecture docs</span></p>
-                        </div>
+                        <span class="absolute text-4xl md:text-5xl font-black text-brand-accent/10 -top-2 -right-2">2</span>
+                        <i class="fa-solid fa-pen-ruler text-lg md:text-2xl text-brand-accent"></i>
                     </div>
+                </div>
+
+                <div class="bg-white dark:bg-brand-navy p-5 md:p-8 rounded-2xl md:rounded-3xl 
+                    border border-slate-100 dark:border-white/5 
+                    shadow-md hover:shadow-xl 
+                    transition duration-300 hover:-translate-y-2">
+
+                    <h4 class="font-display font-bold text-base md:text-xl text-heading dark:text-inverse mb-3">
+                        Design & Plan
+                    </h4>
+
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                        We sketch out how it will look and work. You approve everything before we start building.
+                    </p>
+
+                    <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-accent">
+                        ✏️ 1-2 Weeks
+                    </span>
                 </div>
             </div>
 
             <!-- Phase 3 -->
-            <div class="relative">
-                <div class="md:hidden mb-8 h-1 bg-gradient-to-r from-brand-primary to-transparent"></div>
-                <div class="flex flex-col">
-                    <!-- Timeline dot -->
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="flex-shrink-0 w-12 h-12 bg-brand-primary text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
-                            3
-                        </div>
-                        <div class="hidden md:block h-1 flex-1 bg-slate-200 dark:bg-white/10"></div>
-                    </div>
+            <div class="relative z-10 group text-center">
+                <div class="relative mb-6 flex justify-center">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-brand-navy rounded-full 
+                        shadow-lg border-4 border-brand-tech dark:border-brand-secondary 
+                        flex items-center justify-center 
+                        transition duration-500 group-hover:scale-110">
 
-                    <!-- Content -->
-                    <div class="bg-white dark:bg-brand-navy p-8 rounded-2xl border border-slate-100 dark:border-white/5">
-                        <h4 class="font-display font-bold text-xl text-heading dark:text-inverse mb-3">Development & Testing</h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            Agile sprints. Working demos every Friday. Security & performance tested continuously.
-                        </p>
-                        <div class="space-y-2 text-[10px] font-semibold text-brand-primary">
-                            <p>⏱ <span class="text-slate-500 dark:text-slate-400">4-12 weeks</span></p>
-                            <p>📋 <span class="text-slate-500 dark:text-slate-400">Deliverables: Sprint reviews, staging tests</span></p>
-                        </div>
+                        <span class="absolute text-4xl md:text-5xl font-black text-brand-primary/10 -top-2 -right-2">3</span>
+                        <i class="fa-solid fa-code text-lg md:text-2xl text-brand-primary"></i>
                     </div>
+                </div>
+
+                <div class="bg-white dark:bg-brand-navy p-5 md:p-8 rounded-2xl md:rounded-3xl 
+                    border border-slate-100 dark:border-white/5 
+                    shadow-md hover:shadow-xl 
+                    transition duration-300 hover:-translate-y-2">
+
+                    <h4 class="font-display font-bold text-base md:text-xl text-heading dark:text-inverse mb-3">
+                        Build It
+                    </h4>
+
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                        Our team writes the code. We show you real, working progress every single week.
+                    </p>
+
+                    <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-primary">
+                        ⚙️ 4-8 Weeks
+                    </span>
                 </div>
             </div>
 
             <!-- Phase 4 -->
-            <div class="relative">
-                <div class="md:hidden mb-8 h-1 bg-slate-200 dark:bg-white/10"></div>
-                <div class="flex flex-col">
-                    <!-- Timeline dot -->
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="flex-shrink-0 w-12 h-12 bg-brand-accent text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
-                            4
-                        </div>
-                    </div>
+            <div class="relative z-10 group text-center">
+                <div class="relative mb-6 flex justify-center">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-brand-navy rounded-full 
+                        shadow-lg border-4 border-brand-tech dark:border-brand-secondary 
+                        flex items-center justify-center 
+                        transition duration-500 group-hover:scale-110">
 
-                    <!-- Content -->
-                    <div class="bg-white dark:bg-brand-navy p-8 rounded-2xl border border-slate-100 dark:border-white/5">
-                        <h4 class="font-display font-bold text-xl text-heading dark:text-inverse mb-3">Launch & Support</h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            Production deployment, monitoring setup, team training. 30 days of bug-fix support included.
-                        </p>
-                        <div class="space-y-2 text-[10px] font-semibold text-brand-primary">
-                            <p>⏱ <span class="text-slate-500 dark:text-slate-400">2 weeks + ongoing</span></p>
-                            <p>📋 <span class="text-slate-500 dark:text-slate-400">Deliverables: Live system, docs, training</span></p>
-                        </div>
+                        <span class="absolute text-4xl md:text-5xl font-black text-brand-accent/10 -top-2 -right-2">4</span>
+                        <i class="fa-solid fa-rocket text-lg md:text-2xl text-brand-accent"></i>
                     </div>
+                </div>
+
+                <div class="bg-white dark:bg-brand-navy p-5 md:p-8 rounded-2xl md:rounded-3xl 
+                    border border-slate-100 dark:border-white/5 
+                    shadow-md hover:shadow-xl 
+                    transition duration-300 hover:-translate-y-2">
+
+                    <h4 class="font-display font-bold text-base md:text-xl text-heading dark:text-inverse mb-3">
+                        Go Live!
+                    </h4>
+
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                        We launch your project and support you to ensure everything runs perfectly.
+                    </p>
+
+                    <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-accent">
+                        🚀 Launch
+                    </span>
                 </div>
             </div>
+
         </div>
 
-        <!-- Investment Summary -->
-        <div class="bg-slate-50 dark:bg-white/2.5 border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-10 md:p-12">
-            <div class="grid md:grid-cols-2 gap-12">
-                <div>
-                    <h4 class="font-display font-bold text-xl text-heading dark:text-inverse mb-6">Transparent Pricing</h4>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-white/10">
-                            <span class="text-slate-600 dark:text-slate-400 font-semibold">Starter (Simple Site)</span>
-                            <span class="font-bold text-heading dark:text-inverse">₹50K – ₹2L</span>
-                        </div>
-                        <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-white/10">
-                            <span class="text-slate-600 dark:text-slate-400 font-semibold">Growth (Dashboard/App)</span>
-                            <span class="font-bold text-heading dark:text-inverse">₹2L – ₹10L</span>
-                        </div>
-                        <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-white/10">
-                            <span class="text-slate-600 dark:text-slate-400 font-semibold">Enterprise (Full Platform)</span>
-                            <span class="font-bold text-heading dark:text-inverse">₹10L+</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="font-display font-bold text-xl text-heading dark:text-inverse mb-6">What's Included</h4>
-                    <ul class="space-y-3">
-                        <li class="flex gap-3 items-start">
-                            <i class="fa-solid fa-circle-check text-brand-primary mt-1 flex-shrink-0"></i>
-                            <span class="text-slate-600 dark:text-slate-400">Fixed timeline & budget (no surprises)</span>
-                        </li>
-                        <li class="flex gap-3 items-start">
-                            <i class="fa-solid fa-circle-check text-brand-primary mt-1 flex-shrink-0"></i>
-                            <span class="text-slate-600 dark:text-slate-400">30 days post-launch support</span>
-                        </li>
-                        <li class="flex gap-3 items-start">
-                            <i class="fa-solid fa-circle-check text-brand-primary mt-1 flex-shrink-0"></i>
-                            <span class="text-slate-600 dark:text-slate-400">Weekly sprint reviews</span>
-                        </li>
-                        <li class="flex gap-3 items-start">
-                            <i class="fa-solid fa-circle-check text-brand-primary mt-1 flex-shrink-0"></i>
-                            <span class="text-slate-600 dark:text-slate-400">Performance & security audits</span>
-                        </li>
-                        <li class="flex gap-3 items-start">
-                            <i class="fa-solid fa-circle-check text-brand-primary mt-1 flex-shrink-0"></i>
-                            <span class="text-slate-600 dark:text-slate-400">Clean, documented code (yours to keep)</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
 </section>

@@ -39,11 +39,16 @@ if (isset($_POST['save_settings'])) {
         'contact_email' => $_POST['contact_email'] ?? '',
         'contact_phone' => $_POST['contact_phone'] ?? '',
         'contact_address' => $_POST['contact_address'] ?? '',
+
+        // Promo Modal
+        'promo_active' => isset($_POST['promo_active']) ? '1' : '0',
+        'promo_title' => $_POST['promo_title'] ?? '',
+        'promo_text' => $_POST['promo_text'] ?? '',
     ];
 
     // File Upload Handling
     $uploadDir = __DIR__ . '/uploads/';
-    foreach (['site_logo', 'site_thumbnail'] as $fileKey) {
+    foreach (['site_logo', 'site_thumbnail', 'promo_image'] as $fileKey) {
         if (isset($_FILES[$fileKey]) && $_FILES[$fileKey]['error'] === UPLOAD_ERR_OK) {
             $ext = pathinfo($_FILES[$fileKey]['name'], PATHINFO_EXTENSION);
             $newName = $fileKey . '_' . time() . '.' . $ext;

@@ -31,7 +31,7 @@
         <!-- Heading -->
         <h1 class="font-display text-5xl md:text-7xl font-extrabold mb-8 leading-[1.1] tracking-tight text-heading dark:text-inverse">
             Smart Websites & Apps<br>
-            <span class="text-brand-accent">Made Simple.</span>
+            <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">Made Simple.</span>
         </h1>
 
         <p class="text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed text-body dark:text-muted">

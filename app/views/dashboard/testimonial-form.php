@@ -22,13 +22,21 @@ use UI\Component;
     <!-- Form -->
     <div class="max-w-4xl">
         <?= Component::card('
-            <form method="POST" action="' . url('admin/testimonials') . '" class="space-y-8">
+            <form method="POST" action="' . url('admin/testimonials') . '" enctype="multipart/form-data" class="space-y-8">
                 ' . csrf_field() . '
                 ' . ($testimonial ? '<input type="hidden" name="id" value="' . $testimonial['id'] . '">' : '') . '
                 
                 <div class="grid md:grid-cols-2 gap-10">
                     ' . Component::input('client_name', 'Client Name', $testimonial['client_name'] ?? '', 'text', 'e.g. John Doe') . '
                     ' . Component::input('client_position', 'Position / Company', $testimonial['client_position'] ?? '', 'text', 'e.g. CEO, TechCorp') . '
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Client Photo (Avatar)</label>
+                    <div class="flex items-center gap-6">
+                        ' . (isset($testimonial['avatar']) && $testimonial['avatar'] ? '<img src="'.url('public/uploads/'.$testimonial['avatar']).'" class="w-16 h-16 rounded-full object-cover border border-slate-200 dark:border-white/10">' : '<div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-400"><i class="fa-solid fa-user text-xl"></i></div>') . '
+                        <input type="file" name="avatar" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-primary/10 file:text-brand-primary hover:file:bg-brand-primary/20">
+                    </div>
                 </div>
 
                 <div class="space-y-2">

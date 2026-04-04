@@ -28,6 +28,9 @@ use UI\Component;
         <button @click="activeTab = 'contact'" :class="activeTab === 'contact' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
             <i class="fa-solid fa-address-book"></i> Contact
         </button>
+        <button @click="activeTab = 'marketing'" :class="activeTab === 'marketing' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-bullhorn"></i> Marketing
+        </button>
     </div>
 
     <form method="post" enctype="multipart/form-data" class="space-y-8 pb-20">
@@ -131,6 +134,45 @@ use UI\Component;
                     </div>
                 </div>
             ', 'Strategic Locations', 'fa-map-location-dot') ?>
+        </div>
+
+        <!-- MARKETING & PROMO -->
+        <div x-show="activeTab === 'marketing'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <?= Component::card('
+                <div class="grid gap-8">
+                    <div class="p-8 rounded-[2rem] bg-brand-primary/10 border border-brand-primary/20">
+                        <div class="flex items-center justify-between">
+                            <div class="flex gap-4 items-center">
+                                <div class="w-12 h-12 rounded-2xl bg-brand-primary text-white flex items-center justify-center shadow-lg shadow-brand-primary/20">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-display font-bold text-brand-secondary dark:text-white text-base">Enable Lead Modal</h4>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wide">Toggle the promotional popup across the site.</p>
+                                </div>
+                            </div>
+                            ' . Component::checkbox('promo_active', 'Active', ($settings['promo_active'] ?? '0') === '1') . '
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            ' . Component::input('promo_title', 'Modal Headline', $settings['promo_title'] ?? '', 'text', 'Get a Free Consultation!') . '
+                        </div>
+                        <div class="relative group">
+                            <div class="w-full h-24 rounded-2xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-200 dark:border-white/10 flex flex-col items-center justify-center transition-all hover:border-brand-primary/50 overflow-hidden">
+                                ' . (isset($settings['promo_image']) && $settings['promo_image'] !== '' ? '<img src="'.url('public/uploads/'.$settings['promo_image']).'" class="w-full h-full object-cover">' : '<span class="text-[8px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-brand-primary mt-2 flex flex-col items-center"><i class="fa-solid fa-image text-xl mb-1"></i> Promo Img Banner</span>') . '
+                                <input type="file" name="promo_image" class="absolute inset-0 opacity-0 cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Modal Body Text</label>
+                        <textarea name="promo_text" rows="3" class="w-full bg-slate-50 dark:bg-brand-secondary/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-primary/50 transition-colors dark:text-white font-medium resize-none">' . e($settings['promo_text'] ?? 'Enter your details below to secure your spot.') . '</textarea>
+                    </div>
+                </div>
+            ', 'Promo Lead Magnet', 'fa-bullhorn') ?>
         </div>
 
         <!-- Submit Button Overlay -->

@@ -52,9 +52,10 @@
             <div>
                 <h4 class="font-display font-bold uppercase tracking-[0.2em] text-[10px] text-muted mb-8">Connect</h4>
                 <ul class="space-y-4 text-xs font-bold uppercase tracking-widest text-heading">
-                    <li><button @click="modalOpen = true" class="hover:text-brand-accent transition-colors text-left">Consult</button></li>
-                    <li><a href="<?= url('login') ?>" class="hover:text-brand-accent transition-colors">Staff</a></li>
-                    <li><a href="#" class="hover:text-brand-accent transition-colors">Legal</a></li>
+                    <li><button @click="modalOpen = true" class="hover:text-brand-accent transition-colors text-left">CONSULT</button></li>
+                    <!-- <li><a href="<?= url('login') ?>" class="hover:text-brand-accent transition-colors">Staff</a></li> -->
+                    <li><a href="<?= url('public/terms.php') ?>" class="hover:text-brand-accent transition-colors">Terms & Conditions</a></li>
+                    <li><a href="<?= url('public/privacy.php') ?>" class="hover:text-brand-accent transition-colors">Privacy Policy</a></li>
                 </ul>
             </div>
         </div>
@@ -71,6 +72,7 @@
 </footer>
 
 <?php require_once __DIR__ . '/lead-modal.php'; ?>
+<?php require_once __DIR__ . '/components/promo-modal.php'; ?>
 
 </body>
 </html>

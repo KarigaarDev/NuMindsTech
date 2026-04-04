@@ -32,33 +32,73 @@ require '../app/views/header.php';
 </section>
 
 <!-- PORTFOLIO GRID -->
-<section class="py-20 bg-white dark:bg-brand-secondary min-h-[50vh]">
+<section class="py-20 bg-white dark:bg-brand-secondary relative overflow-hidden">
+
+    <!-- 🔲 Background -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+         style="background-image: linear-gradient(to right, #00000010 1px, transparent 1px), linear-gradient(to bottom, #00000010 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
     <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
+
         <?php if (empty($items)): ?>
             <div class="text-center py-20 text-muted uppercase tracking-widest text-[10px] font-bold">
                 Works coming soon...
             </div>
         <?php else: ?>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+
+            <!-- 🔥 GRID (FORCED 4 COL DESKTOP) -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+
                 <?php foreach($items as $item): 
                     $slug = str_replace([' ', '/', '\\'], '-', strtolower($item['title']));
                 ?>
-                    <a href="<?= url('portfolio/' . $slug) ?>" class="group flex flex-col relative rounded-2xl overflow-hidden bg-slate-50 dark:bg-brand-navy border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2">
-                        <div class="relative aspect-[4/5] overflow-hidden">
-                            <img src="<?= url('public/uploads/') . $item['featured_image'] ?>" alt="<?= e($item['title']) ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                            <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-white mb-2 shadow-sm"></i>
+
+                <a href="<?= url('portfolio/' . $slug) ?>" 
+                   class="group block">
+
+                    <div class="rounded-2xl overflow-hidden 
+                                bg-white/70 dark:bg-brand-navy/60 backdrop-blur-md
+                                border border-slate-200 dark:border-white/10
+                                shadow-md hover:shadow-2xl hover:shadow-brand-primary/20
+                                transition-all duration-500 hover:-translate-y-2">
+
+                        <!-- 🖼️ Image -->
+                        <div class="p-3">
+                            <div class="rounded-xl overflow-hidden bg-black/5 dark:bg-black/20">
+
+                                <img 
+                                    src="<?= url('public/uploads/') . $item['featured_image'] ?>" 
+                                    alt="<?= e($item['title']) ?>" 
+                                    class="w-full h-auto object-contain transition-all duration-700 group-hover:scale-105"
+                                >
+
                             </div>
                         </div>
-                        <div class="p-5 flex-1 flex flex-col justify-center">
-                            <p class="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-accent mb-1"><?= e($item['category']) ?></p>
-                            <h5 class="font-display font-bold text-heading dark:text-inverse text-base leading-tight"><?= e($item['title']) ?></h5>
+
+                        <!-- 📝 Content -->
+                        <div class="p-4 sm:p-5">
+
+                            <p class="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-accent mb-1">
+                                <?= e($item['category']) ?>
+                            </p>
+
+                            <h5 class="font-display font-bold text-heading dark:text-inverse text-sm sm:text-base leading-tight">
+                                <?= e($item['title']) ?>
+                            </h5>
+
                         </div>
-                    </a>
+
+                    </div>
+
+                </a>
+
                 <?php endforeach; ?>
+
             </div>
+
         <?php endif; ?>
+
     </div>
 </section>
 

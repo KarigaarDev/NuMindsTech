@@ -154,6 +154,8 @@ class="bg-white text-heading
                 <a href="<?= url('') ?>" class="text-heading hover:text-brand-primary transition-colors">Home</a>
                 <a href="#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
                 <a href="#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
+                <a href="#testimonials" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
+                <a href="#faq" class="text-heading hover:text-brand-primary transition-colors">FAQ</a>
             </div>
 
             <!-- Social Links in Header -->
@@ -163,6 +165,9 @@ class="bg-white text-heading
                 <?php endif; ?>
                 <?php if ($li = setting('linkedin_url')): ?>
                     <a href="<?= e($li) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
+                <?php endif; ?>
+                <?php if ($ig = setting('instagram_url')): ?>
+                    <a href="<?= e($ig) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-instagram text-sm"></i></a>
                 <?php endif; ?>
                 <?php if ($wa = setting('whatsapp_number')): ?>
                     <a href="https://wa.me/<?= e(str_replace(['+', ' '], '', $wa)) ?>" target="_blank" class="hover:text-emerald-500 transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
