@@ -6,125 +6,196 @@ $promoTitle = setting('promo_title', 'Exclusive Offer');
 $promoText = setting('promo_text', 'Sign up today and accelerate your business growth.');
 $promoImage = setting('promo_image', '');
 
-// Optional image logic
-$imgSrc = $promoImage ? url('public/uploads/' . $promoImage) : url('public/images/hero-bg.jpg'); // Adjust default
+$imgSrc = $promoImage ? url('public/uploads/' . $promoImage) : url('public/images/hero-bg.jpg');
 ?>
 
-<!-- Promo Lead Magnet Modal (Alpine.js State) -->
-<div x-data="{ 
-        promoOpen: false, 
-        init() {
-            // Check if user has closed it in the last 24 hours
-            const closedAt = localStorage.getItem('promoClosedAt');
-            const now = new Date().getTime();
-            
-            // Only show if it hasn't been closed in the last 24h
-            if (!closedAt || now - closedAt > 86400000) {
-                setTimeout(() => {
-                    this.promoOpen = true;
-                }, 3000); // 3 second delay
-            }
-        },
-        closePromo() {
-            this.promoOpen = false;
-            localStorage.setItem('promoClosedAt', new Date().getTime());
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div 
+x-data="{ 
+    promoOpen: false,
+    loading: false,
+
+    init() {
+        const closedAt = localStorage.getItem('promoClosedAt');
+        const now = new Date().getTime();
+
+        if (!closedAt || now - closedAt > 86400000) {
+            setTimeout(() => this.promoOpen = true, 2000);
         }
-    }" 
-    @keydown.escape.window="closePromo" 
-    class="relative z-[100]"
+    },
+
+    closePromo() {
+        this.promoOpen = false;
+        localStorage.setItem('promoClosedAt', new Date().getTime());
+    },
+
+    async submitForm(e) {
+        e.preventDefault();
+        if (this.loading) return;
+
+        this.loading = true;
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Submitted successfully',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                form.reset();
+
+                setTimeout(() => {
+                    this.closePromo();
+                }, 3000);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message || 'Something went wrong'
+                });
+            }
+
+        } catch (err) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Network issue'
+            });
+        }
+
+        this.loading = false;
+    }
+}" 
+
+class="relative z-[100]"
+@keydown.escape.window="closePromo"
 >
-    <!-- Backdrop overlay -->
-    <div x-show="promoOpen" 
-         x-transition:enter="transition ease-out duration-500" 
-         x-transition:enter-start="opacity-0 backdrop-blur-none" 
-         x-transition:enter-end="opacity-100 backdrop-blur-md" 
-         x-transition:leave="transition ease-in duration-300" 
-         x-transition:leave-start="opacity-100 backdrop-blur-md" 
-         x-transition:leave-end="opacity-0 backdrop-blur-none" 
-         class="fixed inset-0 bg-brand-secondary/80 dark:bg-brand-dark/90 cursor-pointer"
-         @click="closePromo"
-         style="display: none;"></div>
 
-    <!-- Modal Panel -->
-    <div x-show="promoOpen" 
-         x-transition:enter="transition ease-out duration-500 delay-100" 
-         x-transition:enter-start="opacity-0 translate-y-12 scale-95" 
-         x-transition:enter-end="opacity-100 translate-y-0 scale-100" 
-         x-transition:leave="transition ease-in duration-300" 
-         x-transition:leave-start="opacity-100 translate-y-0 scale-100" 
-         x-transition:leave-end="opacity-0 translate-y-12 scale-95" 
-         class="fixed inset-0 overflow-y-auto pointer-events-none"
-         style="display: none;">
-         
-        <div class="flex min-h-full items-center justify-center p-4">
-            <div class="relative w-full max-w-4xl bg-white dark:bg-brand-navy rounded-[2rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto border border-white/20 dark:border-white/10 flex flex-col md:flex-row">
-                
-                <!-- Close Button -->
-                <button @click="closePromo" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-slate-800 dark:text-white transition-all">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+<!-- BACKDROP -->
+<div x-show="promoOpen"
+     x-transition.opacity
+     class="fixed inset-0 bg-black/60 backdrop-blur-sm"
+     @click="closePromo"
+     style="display:none;">
+</div>
 
-                <!-- Left Split: Image/Graphic -->
-                <div class="w-full md:w-1/2 relative min-h-[250px] md:min-h-full overflow-hidden bg-brand-secondary">
-                    <?php if ($promoImage): ?>
-                        <img src="<?= e($imgSrc) ?>" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay">
-                    <?php else: ?>
-                        <!-- Gradient Fallback -->
-                        <div class="absolute inset-0 bg-gradient-to-br from-brand-primary to-brand-accent opacity-90"></div>
-                        <div class="absolute inset-0 bg-[url('<?= url('public/images/grid.svg') ?>')] opacity-20 mix-blend-overlay"></div>
-                    <?php endif; ?>
-                    
-                    <div class="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-brand-secondary via-transparent to-transparent">
-                        <div class="text-white">
-                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[10px] font-bold tracking-widest uppercase mb-4">
-                                <i class="fa-solid fa-gift text-brand-accent"></i> Special Offer
-                            </span>
-                        </div>
-                    </div>
-                </div>
+<!-- MODAL WRAPPER -->
+<div x-show="promoOpen"
+     x-transition
+     class="fixed inset-0 flex items-end md:items-center justify-center px-16 md:p-6"
+     style="display:none;">
 
-                <!-- Right Split: Content & Form -->
-                <div class="w-full md:w-1/2 p-10 md:p-14 flex flex-col justify-center">
-                    <h2 class="font-display font-extrabold text-3xl md:text-4xl text-heading dark:text-inverse mb-4 leading-tight">
-                        <?= e($promoTitle) ?>
-                    </h2>
-                    <p class="text-slate-500 dark:text-slate-400 font-medium mb-8">
-                        <?= e($promoText) ?>
-                    </p>
+<!-- MODAL -->
+<div class="w-full md:max-w-5xl bg-white dark:bg-brand-navy 
+            rounded-t-3xl md:rounded-3xl shadow-2xl 
+            flex flex-col md:flex-row 
+           ">
 
-                    <form action="<?= url('submit-lead.php') ?>" method="POST" class="space-y-4">
-                        <?= csrf_field() ?>
-                        <input type="hidden" name="service_type" value="[PROMO LEAD]">
-                        <input type="hidden" name="redirect_url" value="<?= e($_SERVER['REQUEST_URI']) ?>">
 
-                        <div class="space-y-4">
-                            <div>
-                                <input type="text" name="name" required placeholder="Your full name" class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all dark:text-white placeholder:text-slate-400">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <input type="email" name="email" required placeholder="Business email" class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all dark:text-white placeholder:text-slate-400">
-                                </div>
-                                <div>
-                                    <input type="tel" name="phone" required placeholder="Phone number" class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all dark:text-white placeholder:text-slate-400">
-                                </div>
-                            </div>
-                            <div>
-                                <textarea name="message" required placeholder="One-liner about your project needs..." rows="2" class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all dark:text-white placeholder:text-slate-400 resize-none"></textarea>
-                            </div>
-                        </div>
+<!-- IMAGE -->
+<div class="w-full md:w-1/2 h-44 md:h-auto relative flex-shrink-0">
 
-                        <button type="submit" class="w-full btn-primary px-8 py-5 rounded-xl font-display font-bold text-sm uppercase tracking-widest shadow-xl flex justify-center items-center gap-3 mt-4 hover:scale-[1.02] transition-all">
-                            Claim Offer <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                        
-                        <p class="text-center text-[10px] font-medium text-slate-400 mt-4">
-                            By claiming, you agree to our <a href="<?= url('public/privacy.php') ?>" class="underline hover:text-brand-primary">Privacy Policy</a>
-                        </p>
-                    </form>
-                </div>
+    <img src="<?= e($imgSrc) ?>"
+         class="absolute inset-0 w-full h-full object-cover">
 
-            </div>
-        </div>
-    </div>
+    <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/70 to-transparent"></div>
+
+    <!-- CLOSE BUTTON (FIXED POSITION) -->
+    <button @click="closePromo"
+        class="absolute top-2 right-2 md:top-4 md:right-4 z-30
+        w-11 h-11 md:w-12 md:h-12
+        bg-black/50 hover:bg-black/70
+        text-white rounded-full
+        flex items-center justify-center
+        backdrop-blur-md transition-all
+        hover:scale-110 active:scale-95">
+
+        <i class="fa-solid fa-xmark text-lg"></i>
+    </button>
+
+</div>
+<!-- CONTENT -->
+<div class="w-full md:w-1/2">
+
+<!-- SCROLL AREA -->
+<div class="p-4 sm:p-6 md:p-10">
+
+<h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">
+<?= e($promoTitle) ?>
+</h2>
+
+<p class="text-sm text-gray-500 mb-5">
+<?= e($promoText) ?>
+</p>
+
+<form action="<?= url('submit-lead.php') ?>"
+      method="POST"
+      @submit="submitForm"
+      class="space-y-3">
+
+<?= csrf_field() ?>
+
+<input type="hidden" name="service_type" value="[PROMO LEAD]">
+
+<input type="text" name="name" required
+placeholder="Full Name"
+class="w-full border text-black rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-primary">
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+<input type="email" name="email" required
+placeholder="Email"
+class="w-full border text-black rounded-xl px-4 py-3 text-sm">
+
+<input type="tel" name="phone" required
+placeholder="Phone"
+class="w-full border   text-black rounded-xl px-4 py-3 text-sm">
+
+</div>
+
+<textarea name="message" required rows="2"
+placeholder="Tell us your need..."
+class="w-full border text-black rounded-xl px-4 py-3 text-sm resize-none"></textarea>
+
+</div>
+
+<!-- STICKY BUTTON (MOBILE MAGIC) -->
+<div class="p-4 border-t bg-white dark:bg-brand-navy">
+
+<button type="submit"
+:disabled="loading"
+class="w-full bg-brand-primary text-white py-4 rounded-xl font-semibold flex justify-center items-center">
+
+<span x-show="!loading">Claim Offer →</span>
+<span x-show="loading">Sending...</span>
+
+</button>
+
+<p class="text-[10px] text-center text-gray-400 mt-2">
+We respect your privacy
+</p>
+
+</div>
+
+</form>
+
+</div>
+</div>
+
+</div>
 </div>

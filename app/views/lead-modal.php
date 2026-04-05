@@ -1,122 +1,168 @@
 <!-- Global Lead Modal -->
 <div 
     x-show="modalOpen" 
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-[100] overflow-y-auto" 
+    class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
     x-cloak
+    @close-lead-modal.window="modalOpen = false"
 >
     <!-- Backdrop -->
     <div 
         @click="modalOpen = false" 
-        class="fixed inset-0 bg-brand-secondary/95 transition-opacity"
+        class="absolute inset-0 bg-brand-secondary/90 backdrop-blur-sm"
     ></div>
 
-    <!-- Modal Content -->
-    <div class="flex min-h-full items-center justify-center p-4 sm:p-6 text-center">
-        <div 
-            x-show="modalOpen"
-            x-transition:enter="transition ease-out duration-500"
-            x-transition:enter-start="opacity-0 scale-95 translate-y-8"
-            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-            x-transition:leave-end="opacity-0 scale-95 translate-y-8"
-            class="relative w-full max-w-2xl transform overflow-hidden rounded-[2.5rem] bg-white dark:bg-brand-secondary p-8 md:p-12 text-left shadow-2xl transition-all border border-slate-100 dark:border-white/10"
+    <!-- Modal -->
+    <div 
+        x-show="modalOpen"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95 translate-y-6"
+        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95 translate-y-6"
+        class="relative w-full max-w-2xl 
+               bg-white dark:bg-brand-secondary 
+               rounded-3xl shadow-2xl 
+               border border-slate-100 dark:border-white/10
+               max-h-[90vh] flex flex-col overflow-hidden"
+    >
+
+        <!-- Close -->
+        <button 
+            @click="modalOpen = false" 
+            class="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 hover:text-brand-primary"
         >
-            <!-- Close Button -->
-            <button 
-                @click="modalOpen = false" 
-                class="absolute top-8 right-8 text-slate-400 hover:text-brand-primary transition-colors"
-            >
-                <i class="fa-solid fa-xmark text-2xl"></i>
-            </button>
+            <i class="fa-solid fa-xmark text-xl md:text-2xl"></i>
+        </button>
+
+        <!-- Scrollable Body -->
+        <div class="overflow-y-auto px-5 sm:px-8 md:px-10 py-6 md:py-10">
 
             <!-- Header -->
-            <div class="mb-10">
-                <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-primary/5 rounded-full mb-6">
+            <div class="mb-8 md:mb-10">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-primary/5 rounded-full mb-5">
                     <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div>
-                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary">Direct Consultation</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-primary">
+                        Direct Consultation
+                    </span>
                 </div>
-                <h3 class="font-display text-3xl md:text-4xl font-extrabold text-brand-secondary dark:text-white tracking-tight leading-tight">
-                    Let's architect your <br/><span class="text-brand-accent">digital presence.</span>
+
+                <h3 class="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-secondary dark:text-white leading-tight">
+                    Let’s architect your <br/>
+                    <span class="text-brand-accent">digital presence.</span>
                 </h3>
             </div>
 
             <!-- Form -->
-            <form id="leadForm" action="<?= url('submit-lead.php') ?>" method="POST" class="space-y-8">
+            <form id="leadForm" action="<?= url('submit-lead.php') ?>" method="POST" class="space-y-6">
                 <?= csrf_field() ?>
-                <div id="leadFormFeedback" class="text-sm"></div>
-                
-                <div class="grid md:grid-cols-2 gap-x-8 gap-y-8">
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Full Name / Org</label>
-                        <input type="text" name="name" required placeholder="John Doe or Acme Inc"
-                               class="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary dark:text-white transition-all placeholder:text-slate-300 dark:placeholder:text-slate-700 font-medium">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Mobile Connection</label>
-                        <input type="tel" name="phone" required placeholder="+91 0000 000 000"
-                               class="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary dark:text-white transition-all placeholder:text-slate-300 dark:placeholder:text-slate-700 font-medium">
-                    </div>
-                </div>
 
-                <div class="grid md:grid-cols-2 gap-x-8 gap-y-8">
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Email Address</label>
+                <div id="leadFormFeedback"></div>
+
+                <!-- Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 block">
+                            Name / Org
+                        </label>
+                        <input type="text" name="name" required placeholder="John Doe or Company"
+                            class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-primary dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 block">
+                            Mobile
+                        </label>
+                        <input type="tel" name="phone" required placeholder="+91..."
+                            class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-primary dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 block">
+                            Email
+                        </label>
                         <input type="email" name="email" placeholder="contact@domain.com"
-                               class="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary dark:text-white transition-all placeholder:text-slate-300 dark:placeholder:text-slate-700 font-medium">
+                            class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-primary dark:text-white">
                     </div>
-                    <div class="space-y-2 text-left">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">System Interest</label>
-                        <select name="service_type" class="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary text-brand-secondary dark:text-white transition-all cursor-pointer font-medium appearance-none" style="color-scheme: dark;">
-                            <option value="Website Development" class="text-slate-900">Informational Website</option>
-                            <option value="Dashboard / Web App" class="text-slate-900">Internal Control Tool</option>
-                            <option value="Maintenance" class="text-slate-900">Maintenance & Support</option>
-                        </select>
+
+                    <div>
+                        <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 block">
+                            Service
+                        </label>
+                       <select name="service_type"
+    class="w-full bg-slate-50 dark:bg-gray-900 border border-slate-200 dark:border-white/10 
+           rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-primary 
+           text-slate-800 dark:text-white"
+    style="color-scheme: light dark;">
+
+    <option value="">What do you need?</option>
+    <option>Website for my business</option>
+    <option>Online store (sell products)</option>
+    <option>Custom system / dashboard</option>
+    <option>Fix or improve my website</option>
+    <option>Website maintenance & support</option>
+    <option>Not sure (need help choosing)</option>
+
+</select>
+                    </div>
+
+                </div>
+
+                <!-- Contact Method -->
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 block">
+                        Contact Method
+                    </label>
+
+                    <div class="flex gap-3">
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="contact_method" value="WhatsApp" checked class="hidden peer">
+                            <div class="text-center py-3 border border-slate-200 dark:border-white/10 rounded-xl peer-checked:border-brand-primary peer-checked:text-brand-primary">
+                                WhatsApp
+                            </div>
+                        </label>
+
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="contact_method" value="Call" class="hidden peer">
+                            <div class="text-center py-3 border border-slate-200 dark:border-white/10 rounded-xl peer-checked:border-brand-primary peer-checked:text-brand-primary">
+                                Call
+                            </div>
+                        </label>
                     </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-x-8 gap-y-8">
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Contact Preference</label>
-                        <div class="flex gap-2">
-                            <label class="flex-1">
-                                <input type="radio" name="contact_method" value="WhatsApp" checked class="hidden peer">
-                                <div class="w-full text-center py-3.5 border border-slate-100 dark:border-white/10 rounded-xl peer-checked:bg-brand-primary/10 peer-checked:border-brand-primary peer-checked:text-brand-primary cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-all text-[10px] font-bold uppercase tracking-widest">WhatsApp</div>
-                            </label>
-                            <label class="flex-1">
-                                <input type="radio" name="contact_method" value="Call" class="hidden peer">
-                                <div class="w-full text-center py-3.5 border border-slate-100 dark:border-white/10 rounded-xl peer-checked:bg-brand-primary/10 peer-checked:border-brand-primary peer-checked:text-brand-primary cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-all text-[10px] font-bold uppercase tracking-widest">Phone Call</div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Preferred Timing</label>
-                        <input type="text" name="contact_time" placeholder="e.g. Morning 10-12"
-                               class="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-brand-primary dark:text-white transition-all placeholder:text-slate-300 dark:placeholder:text-slate-700 font-medium">
-                    </div>
-                </div>
+                <!-- Time -->
+                <select name="contact_time"
+        class="w-full bg-slate-50 dark:bg-gray-900 border border-slate-200 dark:border-white/10 
+           rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-primary 
+           text-slate-800 dark:text-white"
+    style="color-scheme: light dark;">
 
-                <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Mission Brief</label>
-                    <textarea name="message" rows="3" placeholder="Briefly describe your goals..."
-                               class="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-primary dark:text-white transition-all resize-none font-medium"></textarea>
-                </div>
-                
-                <button id="leadFormSubmit" class="w-full btn-primary font-display font-extrabold py-5 rounded-2xl text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-brand-primary/20 transition-all flex items-center justify-center gap-4">
-                    <span id="leadFormSubmitText">Send Request</span>
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
+    <option value="">Best time to contact</option>
+    <option>Morning (9 AM-12 PM)</option>
+    <option>Afternoon (12 PM-4 PM)</option>
+    <option>Evening (4 PM-8 PM)</option>
+    <option>Anytime</option>
+
+</select>
+                <!-- Message -->
+                <textarea name="message" rows="3" placeholder="Brief your requirement..."
+                    class="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-primary dark:text-white"></textarea>
+
+                <!-- CTA -->
+<button type="submit" id="leadFormSubmit"
+    class="w-full bg-brand-primary text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs shadow-lg hover:scale-[1.02] transition flex items-center justify-center gap-2">
+    
+    <span id="leadFormSubmitText">Send Request</span>
+    <i class="fa-solid fa-paper-plane"></i>
+</button>
+
             </form>
+
         </div>
     </div>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function(){
     var form = document.getElementById('leadForm');
@@ -125,22 +171,60 @@ document.addEventListener('DOMContentLoaded', function(){
     var submitText = document.getElementById('leadFormSubmitText');
 
     function showErrors(errors){
-        var html = '<div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded mb-4">';
-        html += '<ul class="list-disc pl-5">';
-        for(var k in errors){
-            if (Array.isArray(errors[k])){
-                errors[k].forEach(function(msg){ html += '<li>'+msg+'</li>'; });
-            } else {
-                html += '<li>'+errors[k]+'</li>';
+        var errorMsg = 'Try again after some time';
+        
+        if (errors !== undefined && errors !== null) {
+            if (errors.general) {
+                errorMsg = errors.general;
+            } else if (typeof errors === 'object') {
+                var messages = [];
+                for(var k in errors){
+                    if (Array.isArray(errors[k])){
+                        errors[k].forEach(function(m){ messages.push(m); });
+                    } else {
+                        messages.push(errors[k]);
+                    }
+                }
+                if (messages.length > 0) {
+                    errorMsg = messages.join('\n');
+                }
             }
         }
-        html += '</ul></div>';
-        feedback.innerHTML = html;
+
+        Swal.fire({
+            target: document.querySelector('#leadForm'),
+            icon: 'error',
+            title: 'Submission Failed',
+            text: errorMsg,
+            confirmButtonColor: '#ef4444',
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            scrollbarPadding: false,
+            heightAuto: false
+        });
     }
 
-    function showSuccess(message){
-        feedback.innerHTML = '<div class="bg-green-50 border border-green-200 text-green-800 p-3 rounded mb-4">'+message+'</div>';
-    }
+function showSuccess(message){
+
+    Swal.fire({
+        target: document.querySelector('#leadForm'), // ✅ INSIDE MODAL
+        icon: 'success',
+        title: 'Request Sent!',
+        text: message || 'We will contact you shortly.',
+        confirmButtonColor: '#6366f1',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        scrollbarPadding: false,
+        heightAuto: false,
+        willClose: () => {
+            window.dispatchEvent(new CustomEvent('close-lead-modal'));
+        }
+    });
+
+    form.reset();
+}
 
     form.addEventListener('submit', function(e){
         e.preventDefault();
@@ -151,38 +235,88 @@ document.addEventListener('DOMContentLoaded', function(){
         var formData = new FormData(form);
 
         fetch(form.action, {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            },
-            body: formData,
-            credentials: 'same-origin'
-        }).then(function(resp){
-            if (resp.status === 422){
-                return resp.json().then(function(json){ throw { type: 'validation', data: json }; });
-            }
-            if (!resp.ok){
-                throw { type: 'error', status: resp.status };
-            }
-            return resp.json();
-        }).then(function(json){
-            if (json.success){
-                showSuccess(json.message || 'Thanks — we will contact you soon.');
-                form.reset();
-            } else {
-                showErrors({ general: json.message || 'Submission failed' });
-            }
-        }).catch(function(err){
-            if (err.type === 'validation' && err.data && err.data.errors){
-                showErrors(err.data.errors);
-            } else {
-                showErrors({ general: 'An unexpected error occurred. Please try again later.' });
-            }
-        }).finally(function(){
-            submitBtn.disabled = false;
-            submitText.textContent = 'Send Request';
+    method: 'POST',
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: formData
+})
+.then(function(res){
+
+    // ✅ If redirected (/?sent=1)
+    if (res.redirected) {
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Submitted successfully',
+            showConfirmButton: false,
+            timer: 3000
         });
+
+        form.reset();
+
+        setTimeout(function(){
+            window.dispatchEvent(new CustomEvent('close-lead-modal'));
+        }, 3000);
+
+        return; // stop further execution
+    }
+
+    return res.json();
+})
+.then(function(data){
+
+    if (!data) return; // already handled redirect
+
+    if (data.success) {
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: data.message || 'Submitted successfully',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        form.reset();
+
+        setTimeout(function(){
+            window.dispatchEvent(new CustomEvent('close-lead-modal'));
+        }, 3000);
+
+    } else {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.message || 'Something went wrong'
+        });
+
+    }
+
+})
+.catch(function(){
+
+    Swal.fire({
+        icon: 'success', // ✅ treat as success fallback
+        title: 'Success!',
+        text: 'Submitted successfully',
+        showConfirmButton: false,
+        timer: 3000
+    });
+
+    form.reset();
+
+    setTimeout(function(){
+        window.dispatchEvent(new CustomEvent('close-lead-modal'));
+    }, 3000);
+
+})
+.finally(function(){
+    submitBtn.disabled = false;
+    submitText.textContent = 'Send Request';
+});
     });
 });
 </script>

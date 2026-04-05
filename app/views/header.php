@@ -41,6 +41,7 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
     
     <!-- Icons: FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Tailwind Configuration -->
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -61,6 +62,8 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
     </script>
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?php require __DIR__ . '/../config/tailwind.php'; ?>
     
     <!-- Alpine.js -->
