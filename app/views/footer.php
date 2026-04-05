@@ -45,8 +45,8 @@
                 <h4 class="font-display font-bold uppercase tracking-[0.2em] text-[10px] text-muted mb-8">Company</h4>
                 <ul class="space-y-4 text-xs font-bold uppercase tracking-widest text-heading">
                     <li><a href="<?= url('') ?>" class="hover:text-brand-accent transition-colors">Home</a></li>
-                    <li><a href="#services" class="hover:text-brand-accent transition-colors">Services</a></li>
-                    <li><a href="#solutions" class="hover:text-brand-accent transition-colors">Portfolio</a></li>
+                    <li><a href="<?= url('') ?>#services" class="hover:text-brand-accent transition-colors">Services</a></li>
+                    <li><a href="<?= url('') ?>#solutions" class="hover:text-brand-accent transition-colors">Portfolio</a></li>
                 </ul>
             </div>
             <div>

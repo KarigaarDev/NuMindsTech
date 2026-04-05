@@ -45,42 +45,58 @@ require '../app/views/header.php';
 
 <!-- STATS STRIP -->
 <?php if (setting('show_stats', '1') === '1'): ?>
-<section class="relative z-20 -mt-16">
-    <div class="max-w-5xl mx-auto px-8">
-        <div class="bg-white dark:bg-brand-navy border border-slate-100 dark:border-white/10 p-10 md:p-12 rounded-[2.5rem] shadow-2xl flex flex-wrap justify-around gap-12 text-center">
-            
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-4xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-2 tracking-tight">60+</div>
-                <div class="text-[10px] uppercase font-bold text-brand-accent tracking-[0.2em]">
-                    Businesses Helped
+<section class="relative z-20 -mt-10 sm:-mt-12 md:-mt-16">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
+
+        <div class="bg-white dark:bg-brand-navy 
+                    border border-slate-100 dark:border-white/10 
+                    p-6 sm:p-8 md:p-12 
+                    rounded-3xl md:rounded-[2.5rem] 
+                    shadow-xl md:shadow-2xl">
+
+            <!-- GRID -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 sm:gap-y-10 md:gap-6 text-center">
+
+                <!-- Stat -->
+                <div>
+                    <div class="text-2xl sm:text-3xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-1 sm:mb-2 tracking-tight">
+                        60+
+                    </div>
+                    <div class="text-[9px] sm:text-[10px] uppercase font-bold text-brand-accent tracking-[0.15em] sm:tracking-[0.2em]">
+                        Businesses Helped
+                    </div>
                 </div>
-            </div>
 
-            <div class="w-px h-16 bg-slate-100 dark:bg-white/5 hidden md:block"></div>
-
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-4xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-2 tracking-tight">25+</div>
-                <div class="text-[10px] uppercase font-bold text-brand-primary tracking-[0.2em]">
-                    Ongoing Partnerships
+                <!-- Stat -->
+                <div>
+                    <div class="text-2xl sm:text-3xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-1 sm:mb-2 tracking-tight">
+                        25+
+                    </div>
+                    <div class="text-[9px] sm:text-[10px] uppercase font-bold text-brand-primary tracking-[0.15em] sm:tracking-[0.2em]">
+                        Ongoing Partnerships
+                    </div>
                 </div>
-            </div>
 
-            <div class="w-px h-16 bg-slate-100 dark:bg-white/5 hidden md:block"></div>
-
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-4xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-2 tracking-tight">5+</div>
-                <div class="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">
-                    Years Building Systems
+                <!-- Stat -->
+                <div>
+                    <div class="text-2xl sm:text-3xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-1 sm:mb-2 tracking-tight">
+                        5+
+                    </div>
+                    <div class="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em] sm:tracking-[0.2em]">
+                        Years Building Systems
+                    </div>
                 </div>
-            </div>
 
-            <div class="w-px h-16 bg-slate-100 dark:bg-white/5 hidden md:block"></div>
-
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-4xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-2 tracking-tight">100%</div>
-                <div class="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">
-                    Projects Delivered On Time
+                <!-- Stat -->
+                <div>
+                    <div class="text-2xl sm:text-3xl md:text-5xl font-display font-extrabold text-heading dark:text-inverse mb-1 sm:mb-2 tracking-tight">
+                        100%
+                    </div>
+                    <div class="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em] sm:tracking-[0.2em]">
+                        On-Time Delivery
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -111,9 +127,9 @@ require '../app/views/header.php';
             </h2>
 
             <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight uppercase leading-tight">
-                Expertise 
-                <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
-                    Beyond Excellence
+                Our Expertise 
+                <br> <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
+                    Your Business
                 </span> 🎯
             </h3>
 
@@ -197,24 +213,23 @@ require '../app/views/header.php';
 <?php endif; ?>
 
 <!-- CLIENTS / PARTNERS -->
-<!-- CLIENTS / PARTNERS -->
 <?php if (!empty($clients)): ?>
-<section id="clients" class="py-24 md:py-32 bg-white dark:bg-brand-dark relative overflow-hidden">
+<section id="clients" class="py-16 sm:py-20 md:py-28 bg-white dark:bg-brand-dark relative overflow-hidden">
 
     <!-- GRID BACKGROUND -->
-    <div class="absolute inset-0 opacity-[0.04] pointer-events-none"
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
         style="background-image: linear-gradient(to right, #00000010 1px, transparent 1px), linear-gradient(to bottom, #00000010 1px, transparent 1px); background-size: 40px 40px;">
     </div>
 
-    <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10">
 
         <!-- HEADER -->
-        <div class="text-center mb-20 md:mb-24">
-            <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-brand-primary mb-4">
+        <div class="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 class="text-[10px] font-bold uppercase tracking-[0.35em] text-brand-primary mb-3">
                 Trusted Networks
             </h2>
 
-            <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-heading dark:text-inverse tracking-tight leading-tight">
+            <h3 class="font-display text-2xl sm:text-3xl md:text-5xl font-black text-heading dark:text-inverse tracking-tight leading-tight">
                 Partnering with 
                 <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
                     ambitious brands
@@ -223,52 +238,45 @@ require '../app/views/header.php';
         </div>
 
         <?php 
-        // Duplicate for seamless loop
+        // Duplicate for smooth loop
         $loopClients = array_merge($clients, $clients); 
         ?>
 
         <!-- 🔥 MARQUEE WRAPPER -->
         <div class="relative overflow-hidden">
 
-            <!-- GRADIENT FADE (LEFT RIGHT) -->
-            <div class="pointer-events-none absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-white dark:from-brand-dark to-transparent z-10"></div>
-            <div class="pointer-events-none absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-white dark:from-brand-dark to-transparent z-10"></div>
+            <!-- GRADIENT FADE -->
+            <div class="pointer-events-none absolute left-0 top-0 h-full w-12 sm:w-20 bg-gradient-to-r from-white dark:from-brand-dark to-transparent z-10"></div>
+            <div class="pointer-events-none absolute right-0 top-0 h-full w-12 sm:w-20 bg-gradient-to-l from-white dark:from-brand-dark to-transparent z-10"></div>
 
             <!-- SCROLL TRACK -->
-            <div class="flex gap-6 md:gap-10 animate-marquee w-max">
+            <div class="flex gap-4 sm:gap-6 md:gap-10 animate-marquee w-max items-center">
 
                 <?php foreach($loopClients as $c): ?>
-                    
-                    <?php if (!empty($c['link'])): ?>
-                        <a href="<?= e($c['link']) ?>" target="_blank" class="group">
-                    <?php endif; ?>
 
-                    <div class="flex-shrink-0 w-[120px] sm:w-[140px] md:w-[160px]">
+                    <!-- LOGO ITEM -->
+                    <div class="flex-shrink-0 w-[90px] sm:w-[110px] md:w-[140px]">
 
-                        <div class="h-[100px] md:h-[120px] flex items-center justify-center
-                            rounded-2xl md:rounded-3xl 
-                            bg-white/70 dark:bg-brand-navy/60 backdrop-blur-md
-                            border border-slate-200 dark:border-white/10
-                            shadow-sm hover:shadow-xl hover:shadow-brand-primary/10
+                        <div class="h-[70px] sm:h-[85px] md:h-[110px] flex items-center justify-center
+                            rounded-xl sm:rounded-2xl md:rounded-3xl 
+                            bg-white/60 dark:bg-brand-navy/60 backdrop-blur-md
+                            border border-slate-200/70 dark:border-white/10
+                            shadow-sm hover:shadow-lg hover:shadow-brand-primary/10
                             transition-all duration-500 
-                            hover:-translate-y-2 group">
+                            hover:-translate-y-1.5 group">
 
                             <img 
                                 src="<?= url('public/uploads/clients/' . $c['logo']) ?>" 
                                 alt="<?= e($c['name']) ?>" 
-                                class="max-h-[40px] md:max-h-[50px] object-contain 
-                                grayscale opacity-70 
+                                class="max-h-[48px] sm:max-h-[34px] md:max-h-[45px] object-contain 
+                                grayscale-[60%] opacity-80 
                                 transition duration-500 
-                                group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+                                group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
                             >
 
                         </div>
 
                     </div>
-
-                    <?php if (!empty($c['link'])): ?>
-                        </a>
-                    <?php endif; ?>
 
                 <?php endforeach; ?>
 
@@ -286,10 +294,9 @@ require '../app/views/header.php';
         }
 
         .animate-marquee {
-            animation: marquee 25s linear infinite;
+            animation: marquee 22s linear infinite;
         }
 
-        /* Pause on hover (premium feel) */
         .animate-marquee:hover {
             animation-play-state: paused;
         }
@@ -453,7 +460,9 @@ require '../app/views/header.php';
 <?php if (setting('show_cta', '1') === '1'): ?>
 <section class="py-32 bg-[color-mix(in_srgb,var(--brand-primary)_80%,white)] dark:bg-brand-dark relative overflow-hidden bg-scroll bg-no-repeat bg-right-bottom bg-[length:15rem] md:bg-[length:22rem] lg:bg-[length:30rem]" style="background-image: url('<?= url('assets/phone.png') ?>');">
     <div class="max-w-7xl mx-auto px-8 relative z-10 text-center">
-        <h4 class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60 mb-8">YOUR WEBSITE IS THE FIRST THING THEY NOTICE.</h4>
+        <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-brand-primary mb-3">
+                    YOUR WEBSITE IS Your Brand Identity.
+                </h2>
          <h3 class="font-display text-4xl md:text-5xl font-extrabold text-heading dark:text-inverse tracking-tight mb-12">
             make it <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">unforgettable!</span>
         </h3>

@@ -236,4 +236,25 @@ class LeadsController extends BaseController {
         $stmt->execute([$keyword, $keyword, $keyword]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Delete lead
+     */
+    public function delete($leadId) {
+        $this->requireAuth();
+        $this->requireAdmin();
+
+        Csrf::verify();
+
+        $id = (int)$leadId;
+
+        $stmt = $this->pdo->prepare("DELETE FROM leads WHERE id = ?");
+        $result = $stmt->execute([$id]);
+
+        Logger::adminAction($this->userId, 'DELETE_LEAD', "Deleted lead #$id", [
+            'lead_id' => $id
+        ]);
+
+        return $result;
+    }
 }

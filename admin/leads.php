@@ -9,5 +9,14 @@ Auth::requireLogin();
 
 // Instantiate controller and display leads
 $controller = new LeadsController($pdo);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    $action = $_POST['action'];
+    if ($action === 'delete' && isset($_POST['id'])) {
+        $controller->delete($_POST['id']);
+        header('Location: ' . url('admin/leads'));
+        exit;
+    } else {
+        $controller->{$action}($_POST);
+    }
+}
 $controller->index();
-

@@ -155,10 +155,10 @@ class="bg-white text-heading
             
             <div class="flex items-center gap-6 mr-4 border-r border-slate-200 dark:border-white/10 pr-6">
                 <a href="<?= url('') ?>" class="text-heading hover:text-brand-primary transition-colors">Home</a>
-                <a href="#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
-                <a href="#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
-                <a href="#testimonials" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
-                <a href="#faq" class="text-heading hover:text-brand-primary transition-colors">FAQ</a>
+                <a href="<?= url('') ?>#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
+                <a href="<?= url('') ?>#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
+                <a href="<?= url('') ?>#testimonials" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
+                <a href="<?= url('') ?>#faq" class="text-heading hover:text-brand-primary transition-colors">FAQ</a>
             </div>
 
             <!-- Social Links in Header -->
@@ -220,8 +220,11 @@ class="bg-white text-heading
         
         <nav class="flex flex-col px-8 py-10 space-y-6 text-[11px] font-bold uppercase tracking-[0.2em]">
             <a href="<?= url('') ?>" class="text-heading hover:text-brand-primary transition-colors">Home</a>
-            <a href="#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
-            <a href="#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
+            <a href="<?= url('') ?>#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
+            <a href="<?= url('') ?>#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
+            <a href="<?= url('') ?>#testimonials" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
+            <a href="<?= url('') ?>#faq" class="text-heading hover:text-brand-primary transition-colors">FAQ</a>
+
             
             <div class="pt-6 border-t dark:border-slate-800 space-y-6">
                 <!-- Social Links in Mobile -->

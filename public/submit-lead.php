@@ -3,37 +3,54 @@ require '../app/config/db.php';
 require '../app/core/helpers.php';
 require '../app/controllers/LeadsController.php';
 
+header('Content-Type: application/json'); // ✅ Always JSON for AJAX
+
+$isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) 
+    && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+// ❌ Only POST allowed
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    // If AJAX, return JSON error
-    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-        http_response_code(405);
-        echo json_encode(['success' => false, 'message' => 'Method not allowed']);
-        exit;
-    }
-    redirect('');
+    http_response_code(405);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Method not allowed'
+    ]);
+    exit;
 }
 
-Csrf::verify();
+// ✅ CSRF Safe Handling
+try {
+    Csrf::verify();
+} catch (Exception $e) {
+    http_response_code(419);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Session expired. Refresh and try again.'
+    ]);
+    exit;
+}
 
-// Use controller to save lead
+// ✅ Controller
 $leadsController = new LeadsController($pdo);
 
-$isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-
 try {
+
     $id = $leadsController->store($_POST);
-    if ($isAjax) {
-        echo json_encode(['success' => true, 'id' => $id, 'message' => 'Thank you — your request has been received.']);
-        exit;
-    }
-    redirect('?sent=1');
+
+    echo json_encode([
+        'success' => true,
+        'id' => $id,
+        'message' => 'Thank you — your request has been received.'
+    ]);
+    exit;
+
 } catch (Exception $e) {
-    // Controller may already have emitted JSON on validation failures. For safety, return JSON for AJAX.
-    if ($isAjax) {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Server error']);
-        exit;
-    }
-    // fallback redirect
-    redirect('?sent=1');
+
+    http_response_code(500);
+
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage() ?: 'Server error'
+    ]);
+    exit;
 }

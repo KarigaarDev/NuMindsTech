@@ -10,9 +10,9 @@
             </h2>
 
             <h3 class="font-display text-3xl sm:text-4xl md:text-6xl font-black text-heading dark:text-inverse tracking-tight leading-tight mb-6">
-                From simple ideas to <br class="hidden md:block">
+                We turn ideas into <br class="hidden md:block">
                 <span class="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">
-                    working reality.
+                    working solutions.
                 </span>
             </h3>
 

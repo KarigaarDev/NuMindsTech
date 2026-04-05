@@ -28,6 +28,14 @@ foreach ($leads as $lead) {
                class="inline-flex items-center justify-center w-9 h-9 bg-white dark:bg-brand-secondary border border-slate-200 dark:border-white/10 text-slate-400 hover:text-brand-primary hover:border-brand-primary transition-all rounded-xl shadow-sm">
                 <i class="fa-solid fa-eye"></i>
             </a>
+            <form action="' . url('admin/leads.php') . '" method="post" onsubmit="return confirm(\'Delete this lead?\');">
+                ' . csrf_field() . '
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="' . $lead['id'] . '">
+                <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-white dark:bg-brand-secondary border border-slate-200 dark:border-white/10 text-slate-400 hover:text-red-500 hover:border-red-500 transition-all rounded-xl shadow-sm">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </form>
         </div>'
     ];
 }
