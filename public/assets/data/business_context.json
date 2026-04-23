@@ -1,0 +1,113 @@
+{
+    "identity": {
+        "name": "Nimmi AI",
+        "role": "Digital Assistant",
+        "description": "Friendly, uplifting concierge for NuMinds Tech",
+        "whatsapp": "919999999999"
+    },
+    "welcome": {
+        "text": "Hi there! 👋 I am **Nimmi AI**, your smart digital assistant at NuMinds Tech! I can help you find out exactly what you need to grow your digital presence. How can I assist you today?",
+        "suggestions": [
+            { "label": "I need a Website 🌐", "action": "goto_node", "target": "node_web" },
+            { "label": "I need an App 📱", "action": "goto_node", "target": "node_app" },
+            { "label": "See Pricing 💰", "action": "goto_node", "target": "node_pricing" },
+            { "label": "Something Else ✨", "action": "goto_node", "target": "node_other" }
+        ]
+    },
+    "nodes": [
+        {
+            "id": "node_web",
+            "match": ["website", "web development", "landing page", "ecommerce", "site"],
+            "text": "Oh, wonderful! We love crafting beautiful, lightning-fast websites that truly grow your business. 🚀 What stage is your project at?",
+            "suggestions": [
+                { "label": "New Startup / Idea", "action": "goto_node", "target": "node_startup" },
+                { "label": "Scaling Up / Upgrade", "action": "goto_node", "target": "node_upgrade" },
+                { "label": "E-Commerce Store", "action": "goto_node", "target": "node_upgrade" }
+            ]
+        },
+        {
+            "id": "node_app",
+            "match": ["app", "app development", "mobile app", "android", "ios", "application"],
+            "text": "Apps are our specialty! We build incredibly smooth and joyful mobile experiences. Let's make something your users will love! 🎉",
+            "suggestions": [
+                { "label": "Yes, Let's Chat! 💬", "action": "whatsapp", "target": "" },
+                { "label": "How does it work?", "action": "goto_node", "target": "node_process" },
+                { "label": "Back to Main Menu", "action": "reset", "target": "" }
+            ]
+        },
+        {
+            "id": "node_startup",
+            "match": ["startup", "new business"],
+            "text": "Starting fresh is the best part! We can help you launch a stunning MVP (Minimum Viable Product) quickly so you can start glowing and growing. 🌱",
+            "suggestions": [
+                { "label": "Get a Free Consultation", "action": "open_lead_modal", "target": "" },
+                { "label": "Check Pricing", "action": "goto_node", "target": "node_pricing" }
+            ]
+        },
+        {
+            "id": "node_upgrade",
+            "match": ["upgrade", "scaling", "ecommerce"],
+            "text": "Awesome! To scale successfully, your system needs to be fast and flawless. Our modern tech stack is perfectly designed just for that. ⚡",
+            "suggestions": [
+                { "label": "See our Tech Stack", "action": "goto_node", "target": "node_tech" },
+                { "label": "Talk to an Architect", "action": "whatsapp", "target": "" }
+            ]
+        },
+        {
+            "id": "node_pricing",
+            "match": ["pricing", "cost", "how much", "budget", "fees"],
+            "text": "We believe in clear, honest pricing. 💖 Simple landing pages start around $500, while beautiful custom apps range from $2.5k - $10k+ depending on your dreams. Want a quick estimate?",
+            "suggestions": [
+                { "label": "Use Project Estimator", "action": "open_estimator", "target": "" },
+                { "label": "Discuss Custom Quote", "action": "whatsapp", "target": "" }
+            ]
+        },
+        {
+            "id": "node_other",
+            "match": ["other", "something else", "more"],
+            "text": "Absolutely! I have a whole menu of things we can explore together. Where would you like to start? ✨",
+            "suggestions": [
+                { "label": "Our Process ⚙️", "action": "goto_node", "target": "node_process" },
+                { "label": "Tech Stack 💻", "action": "goto_node", "target": "node_tech" },
+                { "label": "See Portfolio 🎨", "action": "scroll_to_portfolio", "target": "" },
+                { "label": "Talk to a Human 🙋‍♀️", "action": "whatsapp", "target": "" }
+            ]
+        },
+        {
+            "id": "node_process",
+            "match": ["process", "timeline", "how long", "when"],
+            "text": "We keep it stress-free and transparent: **1. Consult -> 2. Design -> 3. Build -> 4. Launch**. We will hold your hand through the whole journey and give you weekly updates! 🤝",
+            "suggestions": [
+                { "label": "Start Phase 1 (Consult)", "action": "whatsapp", "target": "" },
+                { "label": "See our Work", "action": "scroll_to_portfolio", "target": "" }
+            ]
+        },
+        {
+            "id": "node_tech",
+            "match": ["tech stack", "technology", "php", "tailwind", "tech"],
+            "text": "We love building fast, modern tech. We use lightweight stacks like modern PHP, TailwindCSS, and Alpine.js so your site feels snappy and secure! 🚀",
+            "suggestions": [
+                { "label": "Get a Tech Audit", "action": "open_lead_modal", "target": "" },
+                { "label": "Connect with Founder", "action": "whatsapp", "target": "" }
+            ]
+        },
+        {
+            "id": "node_hello",
+            "match": ["hello", "hi", "hey", "start", "restart", "menu"],
+            "text": "Hi again! It's so nice to chat with you. How can I brighten your day and help your business? ☀️",
+            "suggestions": [
+                { "label": "Web System", "action": "goto_node", "target": "node_web" },
+                { "label": "Mobile App", "action": "goto_node", "target": "node_app" },
+                { "label": "Something Else ✨", "action": "goto_node", "target": "node_other" }
+            ]
+        }
+    ],
+    "fallback": {
+        "text": "That's a fantastic question! I'm still learning, but our Lead Architect is extremely knowledgeable and would love to help you with that over a quick text. 📱",
+        "suggestions": [
+            { "label": "Chat on WhatsApp", "action": "whatsapp", "target": "" },
+            { "label": "Request Callback", "action": "open_lead_modal", "target": "" },
+            { "label": "Main Menu", "action": "reset", "target": "" }
+        ]
+    }
+}

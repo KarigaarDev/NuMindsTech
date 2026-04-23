@@ -56,6 +56,18 @@ class Logger {
         ], $details);
 
         self::log('INFO', '[ADMIN ACTION] ' . $action . ': ' . $description, $context);
+
+        // Also log to database if PDO is available
+        global $pdo;
+        if (isset($pdo)) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO admin_actions (user_id, action_type, details, ip_address) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$userId, $action, $description . ' | ' . json_encode($details), $_SERVER['REMOTE_ADDR']]);
+            } catch (Exception $e) {
+                // Fail silently to avoid breaking the app if table is missing
+                error_log("Failed to log admin action to DB: " . $e->getMessage());
+            }
+        }
     }
 
     /**
@@ -69,6 +81,18 @@ class Logger {
         ], $context);
 
         self::log('WARNING', '[SECURITY] ' . $event . ': ' . $description, $securityContext);
+
+        // Also log to database if PDO is available
+        global $pdo;
+        if (isset($pdo)) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO admin_actions (user_id, action_type, details, ip_address) VALUES (?, ?, ?, ?)");
+                $stmt->execute([null, 'SECURITY_' . $event, $description . ' | ' . json_encode($context), $_SERVER['REMOTE_ADDR']]);
+            } catch (Exception $e) {
+                // Fail silently
+                error_log("Failed to log security event to DB: " . $e->getMessage());
+            }
+        }
     }
 
     /**

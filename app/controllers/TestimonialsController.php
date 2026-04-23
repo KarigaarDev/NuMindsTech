@@ -45,9 +45,17 @@ class TestimonialsController extends BaseController {
 
         $avatar = null;
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-            $ext = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
-            $newName = 'testimonial_' . time() . '_' . uniqid() . '.' . $ext;
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__ . '/../../public/uploads/' . $newName)) {
+            $upload = $_FILES['avatar'];
+            $allowedMimes = ['image/png','image/jpeg','image/webp'];
+            $allowedExts = ['png','jpg','jpeg','webp'];
+
+            if (!Validator::validateFile($upload, $allowedMimes, $allowedExts)) {
+                return false; // Or handle error appropriately
+            }
+
+            $ext = strtolower(pathinfo($upload['name'], PATHINFO_EXTENSION));
+            $newName = 'testimonial_' . time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+            if (move_uploaded_file($upload['tmp_name'], __DIR__ . '/../../public/uploads/' . $newName)) {
                 $avatar = $newName;
             }
         }
@@ -77,9 +85,17 @@ class TestimonialsController extends BaseController {
         $avatar = $existing['avatar'] ?? null;
 
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-            $ext = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
-            $newName = 'testimonial_' . time() . '_' . uniqid() . '.' . $ext;
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__ . '/../../public/uploads/' . $newName)) {
+            $upload = $_FILES['avatar'];
+            $allowedMimes = ['image/png','image/jpeg','image/webp'];
+            $allowedExts = ['png','jpg','jpeg','webp'];
+
+            if (!Validator::validateFile($upload, $allowedMimes, $allowedExts)) {
+                return false; // Or handle error appropriately
+            }
+
+            $ext = strtolower(pathinfo($upload['name'], PATHINFO_EXTENSION));
+            $newName = 'testimonial_' . time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+            if (move_uploaded_file($upload['tmp_name'], __DIR__ . '/../../public/uploads/' . $newName)) {
                 $avatar = $newName;
                 
                 // Optionally delete the old file to save space

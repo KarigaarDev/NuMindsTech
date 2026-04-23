@@ -46,12 +46,34 @@ class AnalyticsController extends BaseController {
         ");
         $topPages = $pagesStmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Top Social Clicks
+        $socialStmt = $this->pdo->query("
+            SELECT label as platform, COUNT(*) as count 
+            FROM site_events 
+            WHERE category = 'SOCIAL' 
+            GROUP BY label 
+            ORDER BY count DESC
+        ");
+        $topSocial = $socialStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Top CTA Interactions
+        $ctaStmt = $this->pdo->query("
+            SELECT label, COUNT(*) as count 
+            FROM site_events 
+            WHERE category = 'CTA' 
+            GROUP BY label 
+            ORDER BY count DESC
+        ");
+        $topCtas = $ctaStmt->fetchAll(PDO::FETCH_ASSOC);
+
         $this->render('dashboard/analytics', [
             'title' => 'Web Analytics',
             'stats' => $stats,
             'timeline' => $timeline,
             'referrals' => $referrals,
-            'topPages' => $topPages
+            'topPages' => $topPages,
+            'topSocial' => $topSocial,
+            'topCtas' => $topCtas
         ]);
     }
 }

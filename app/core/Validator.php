@@ -98,6 +98,29 @@ class Validator {
                     self::addError($field, ucfirst($field) . ' does not match ' . $param);
                 }
                 break;
+
+            case 'honeypot':
+                if (!empty($value)) {
+                    self::addError($field, 'Spam detected');
+                }
+                break;
+
+            case 'spam_terms':
+                $keywords = ['crypto', 'viagra', 'casino', 'lottery', 'invest', 'loan', 'porn', 'sex'];
+                foreach ($keywords as $word) {
+                    if (stripos($value, $word) !== false) {
+                        self::addError($field, 'Message contains prohibited content');
+                        break;
+                    }
+                }
+                break;
+
+            case 'max_links':
+                $count = preg_match_all('/https?:\/\//i', $value);
+                if ($count > $param) {
+                    self::addError($field, 'Too many links in message');
+                }
+                break;
         }
     }
 
@@ -147,6 +170,46 @@ class Validator {
      */
     public static function sanitizeNumber($number) {
         return filter_var($number, FILTER_SANITIZE_NUMBER_INT);
+    }
+
+    /**
+     * Validate an uploaded file for MIME type and extension
+     */
+    public static function validateFile($file, $allowedMimeTypes, $allowedExtensions) {
+        if (!isset($file['tmp_name']) || empty($file['tmp_name'])) {
+            return false;
+        }
+
+        // 1. Check real MIME type using PHP Fileinfo
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $realMimeType = $finfo->file($file['tmp_name']);
+
+        if (!in_array($realMimeType, $allowedMimeTypes)) {
+            self::addError('file', 'Invalid file content: ' . $realMimeType);
+            return false;
+        }
+
+        // 2. Check extension
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!in_array($ext, $allowedExtensions)) {
+            self::addError('file', 'Invalid file extension');
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Sanitize a filename to prevent directory traversal and injection
+     */
+    public static function sanitizeFilename($filename) {
+        // Remove path information
+        $filename = basename($filename);
+        // Replace non-alphanumeric characters with underscores
+        $filename = preg_replace('/[^a-zA-Z0-9\._-]/', '_', $filename);
+        // Ensure the filename doesn't start with a dot
+        $filename = ltrim($filename, '.');
+        return $filename;
     }
 
     /**

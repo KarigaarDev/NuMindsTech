@@ -1,8 +1,7 @@
 <?php
-// public/users.php
-session_start();
 require '../app/config/db.php';
 require '../app/core/helpers.php';
+Auth::startSession();
 
 Auth::requireLogin();
 
@@ -26,6 +25,7 @@ if (isset($_POST['add_user'])) {
         try {
             $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())");
             $stmt->execute([$name, $email, $hashed, $role, $status]);
+            Logger::adminAction(Auth::userId(), 'CREATE_USER', "Created new user account: $email", ['role' => $role, 'status' => $status]);
             $message = "User added successfully.";
         } catch (PDOException $e) {
             $error = "Email already exists or database error.";
@@ -55,6 +55,7 @@ if (isset($_POST['edit_user'])) {
                 $stmt = $pdo->prepare("UPDATE users SET name = ?, email = ?, role = ?, status = ?, updated_at = NOW() WHERE id = ?");
                 $stmt->execute([$name, $email, $role, $status, $id]);
             }
+            Logger::adminAction(Auth::userId(), 'UPDATE_USER', "Modified user account: $email", ['user_id' => $id, 'role' => $role, 'status' => $status]);
             $message = "User updated successfully.";
         } catch (PDOException $e) {
             $error = "Update failed or Email already exists.";
@@ -70,8 +71,8 @@ if (isset($_POST['delete_user'])) {
     if ($id == Auth::userId()) {
         $error = "You cannot delete yourself.";
     } else {
-        $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
         $stmt->execute([$id]);
+        Logger::adminAction(Auth::userId(), 'DELETE_USER', "Removed user account ID: $id", ['user_id' => $id]);
         $message = "User deleted successfully.";
     }
 }

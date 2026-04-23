@@ -2,9 +2,13 @@
 // app/core/Settings.php
 
 if (!function_exists('getSiteSettings')) {
-    function getSiteSettings($pdo) {
-        if (isset($GLOBALS['siteSettings'])) {
+    function getSiteSettings($pdo, $forceRefresh = false) {
+        if (!$forceRefresh && isset($GLOBALS['siteSettings'])) {
             return $GLOBALS['siteSettings'];
+        }
+
+        if ($forceRefresh) {
+            unset($GLOBALS['siteSettings']);
         }
 
         $settings = [];

@@ -1,8 +1,9 @@
 <?php
-session_start();
+// session_start(); handled by Auth::startSession() below
 
 require_once '../app/config/db.php';
 require_once '../app/core/helpers.php';
+Auth::startSession();
 require_once '../app/controllers/LeadsController.php';
 
 Auth::requireLogin();

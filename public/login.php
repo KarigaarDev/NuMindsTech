@@ -1,8 +1,9 @@
 <?php
-session_start();
-date_default_timezone_set('Asia/Kolkata');
 require_once '../app/config/db.php';
 require_once '../app/core/helpers.php';
+Auth::startSession();
+
+date_default_timezone_set('Asia/Kolkata');
 
 $error = '';
 
@@ -50,10 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute([$_SERVER['REMOTE_ADDR'], $user['id']]);
 
                 // Log successful login
-                Logger::info('User login successful', [
+                Logger::security('LOGIN_SUCCESSFUL', 'User successfully established a session', [
                     'user_id' => $user['id'],
                     'email' => $email,
-                    'ip_address' => $_SERVER['REMOTE_ADDR']
+                    'role' => $user['role'] ?? 'admin'
                 ]);
 
                 // Role-based redirection
@@ -82,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In | NuMinds Tech</title>
+    <title>Sign In | NuMinds Management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- Fonts: Outfit & Inter -->
@@ -93,81 +94,173 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Icons: FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <?php require __DIR__ . '/../app/config/tailwind.php'; ?>
+    
     <style>
+        [x-cloak] { display: none !important; }
+        
+        body {
+            background: radial-gradient(circle at top right, #1b2434, #050b14);
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+            animation: float 20s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 50px) scale(1.1); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group:focus-within label {
+            color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .premium-input {
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-input:focus {
+            border-bottom-color: #2563eb;
+            background: rgba(37, 99, 235, 0.03);
+            box-shadow: 0 10px 15px -10px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            transition: all 0.3s ease;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+        }
     </style>
 </head>
-<body class="bg-brand-secondary font-sans h-screen flex items-center justify-center p-6 text-slate-300 overflow-hidden relative">
+<body class="font-sans h-screen flex items-center justify-center p-6 text-slate-300 overflow-hidden relative" x-data="{ showPass: false }">
 
-<!-- Background Grid -->
-<div class="absolute inset-0 opacity-5 pointer-events-none">
+<!-- Animated Background Elements -->
+<div class="glow-orb bg-brand-primary" style="top: -100px; left: -100px;"></div>
+<div class="glow-orb bg-brand-accent" style="bottom: -150px; right: -50px; animation-delay: -5s;"></div>
+
+<!-- Background Grid Overlay -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none">
     <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5"/>
+            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.5"/>
             </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />
     </svg>
 </div>
 
-<div class="w-full max-w-md relative z-10">
-    <div class="bg-brand-navy border border-white/5 p-10 md:p-14 rounded-[2.5rem] shadow-2xl">
+<div class="w-full max-w-[440px] relative z-10 animate-in fade-in zoom-in-95 duration-700">
+    <div class="glass-card p-10 md:p-14 rounded-[3rem]">
         
         <!-- Header -->
-        <div class="text-center mb-12">
-            <a href="<?= url('') ?>" class="inline-flex flex-col items-center gap-4 group">
-                <div class="w-14 h-14 rounded-2xl bg-brand-primary flex items-center justify-center shadow-lg shadow-brand-primary/20">
-                    <span class="font-display font-extrabold text-white text-2xl">N</span>
+        <div class="text-center mb-16">
+            <a href="<?= url('') ?>" class="inline-flex flex-col items-center gap-6 group">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-brand-primary blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="w-16 h-16 rounded-2xl bg-brand-primary flex items-center justify-center shadow-2xl relative z-10">
+                        <span class="font-display font-black text-white text-3xl">N</span>
+                    </div>
                 </div>
-                <div class="space-y-1">
-                    <h1 class="font-display text-2xl font-bold text-white tracking-tight">NuMinds <span class="text-brand-accent">Tech</span></h1>
-                    <p class="text-[9px] uppercase tracking-[0.4em] font-bold text-slate-500">Management Console</p>
+                <div class="space-y-2">
+                    <h1 class="font-display text-3xl font-bold text-white tracking-tight">NuMinds <span class="text-brand-accent">Console</span></h1>
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="h-px w-4 bg-slate-700"></span>
+                        <p class="text-[9px] uppercase tracking-[0.4em] font-bold text-slate-500">Secure Access Point</p>
+                        <span class="h-px w-4 bg-slate-700"></span>
+                    </div>
                 </div>
             </a>
         </div>
 
         <!-- Error Message -->
         <?php if ($error): ?>
-            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl mb-8 flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
-                <i class="fa-solid fa-circle-exclamation text-red-400"></i>
-                <p class="text-[10px] text-red-200 font-bold uppercase tracking-widest"><?= $error ?></p>
+            <div class="bg-red-500/5 border border-red-500/10 p-4 rounded-2xl mb-10 flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-500" x-data="{ show: true }" x-show="show" x-transition>
+                <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation text-red-500 text-sm"></i>
+                </div>
+                <p class="text-[10px] text-red-200/80 font-bold uppercase tracking-widest leading-relaxed flex-1"><?= $error ?></p>
+                <button @click="show = false" class="text-red-500/50 hover:text-red-500 transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
             </div>
         <?php endif; ?>
 
-        <form method="post" class="space-y-10">
+        <form method="post" class="space-y-12">
             <?= csrf_field() ?>
             
-            <div class="space-y-3">
-                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Authorized Email</label>
+            <div class="space-y-4 input-group">
+                <div class="flex justify-between items-center">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] transition-all">Identity</label>
+                    <i class="fa-solid fa-at text-[10px] text-slate-700"></i>
+                </div>
                 <div class="relative">
-                    <i class="fa-solid fa-envelope absolute left-0 top-1/2 -translate-y-1/2 text-slate-700"></i>
-                    <input name="email" type="email" required placeholder="admin@numindstech.com"
-                           class="w-full bg-transparent border-b-2 border-slate-800 py-3 pl-8 focus:outline-none focus:border-brand-primary transition-all text-sm text-white placeholder:text-slate-700">
+                    <input name="email" type="email" required placeholder="admin@numinds.tech"
+                           class="premium-input w-full py-4 focus:outline-none text-sm text-white placeholder:text-slate-700 tracking-wide">
                 </div>
             </div>
 
-            <div class="space-y-3">
-                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Secure Password</label>
+            <div class="space-y-4 input-group">
+                <div class="flex justify-between items-center">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] transition-all">Secret key</label>
+                    <button type="button" @click="showPass = !showPass" class="text-slate-700 hover:text-brand-primary transition-colors">
+                        <i class="fa-solid" :class="showPass ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                </div>
                 <div class="relative">
-                    <i class="fa-solid fa-lock absolute left-0 top-1/2 -translate-y-1/2 text-slate-700"></i>
-                    <input name="password" type="password" required placeholder="••••••••"
-                           class="w-full bg-transparent border-b-2 border-slate-800 py-3 pl-8 focus:outline-none focus:border-brand-primary transition-all text-sm text-white placeholder:text-slate-700">
+                    <input name="password" :type="showPass ? 'text' : 'password'" required placeholder="••••••••"
+                           class="premium-input w-full py-4 focus:outline-none text-sm text-white placeholder:text-slate-700 tracking-[0.3em]">
                 </div>
             </div>
 
-            <button class="w-full bg-brand-primary text-white font-display font-extrabold py-6 rounded-2xl text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-brand-primary/20 hover:bg-brand-primary/90 transition-all flex items-center justify-center gap-3 group">
-                Establish Session
-                <i class="fa-solid fa-key text-[10px] group-hover:rotate-12 transition-transform"></i>
+            <div class="flex justify-end">
+                <a href="<?= url('public/forgot-password.php') ?>" class="text-[10px] font-bold text-brand-primary uppercase tracking-widest hover:text-brand-accent transition-colors">
+                    Lost access?
+                </a>
+            </div>
+
+            <button class="btn-premium w-full text-white font-display font-extrabold py-6 rounded-2xl text-[11px] uppercase tracking-[0.4em] shadow-2xl flex items-center justify-center gap-3 group overflow-hidden relative">
+                <span class="relative z-10 flex items-center gap-3">
+                    Establish Session
+                    <i class="fa-solid fa-arrow-right-to-bracket text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             </button>
+
         </form>
 
-        <div class="text-center pt-12">
-            <a href="<?= url('') ?>" class="text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-brand-accent transition-colors flex items-center justify-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i>
-                Public Interface
+        <div class="text-center pt-16">
+            <a href="<?= url('') ?>" class="group inline-flex items-center gap-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-brand-accent transition-all">
+                <i class="fa-solid fa-chevron-left group-hover:-translate-x-1 transition-transform"></i>
+                Return to Public Site
             </a>
         </div>
     </div>

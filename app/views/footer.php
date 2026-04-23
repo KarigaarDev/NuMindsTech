@@ -9,31 +9,32 @@
                 <span class="font-display font-bold text-xl text-heading dark:text-inverse tracking-tight">NuMinds <span class="text-brand-accent italic">Tech</span></span>
             </a>
             <p class="text-sm leading-relaxed mb-8 text-body dark:text-muted">
-                <?= setting('site_description', 'Building simple, high-performance digital systems for organizations that value clarity and trust.') ?>
+                <?= setting('site_description', 'Architecting intelligent digital systems and high-performance websites for schools, agencies, and enterprises that value growth and clarity.') ?>
             </p>
+
             <div class="flex gap-4">
                 <?php if ($fb = setting('facebook_url')): ?>
-                <a href="<?= e($fb) ?>" target="_blank" class="w-10 h-10 rounded-lg bg-brand-primary flex items-center justify-center text-white hover:bg-brand-accent transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-brand-primary/20">
+                <a href="<?= e($fb) ?>" target="_blank" data-track="SOCIAL" data-label="Facebook" class="w-10 h-10 rounded-lg bg-brand-primary flex items-center justify-center text-white hover:bg-brand-accent transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-brand-primary/20">
                     <i class="fa-brands fa-facebook-f"></i>
                 </a>
                 <?php endif; ?>
                 <?php if ($tw = setting('twitter_url')): ?>
-                <a href="<?= e($tw) ?>" target="_blank" class="w-10 h-10 rounded-lg bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center text-brand-primary hover:bg-brand-primary hover:text-white transition-all duration-300 ease-out hover:scale-110">
+                <a href="<?= e($tw) ?>" target="_blank" data-track="SOCIAL" data-label="Twitter" class="w-10 h-10 rounded-lg bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center text-brand-primary hover:bg-brand-primary hover:text-white transition-all duration-300 ease-out hover:scale-110">
                     <i class="fa-brands fa-x-twitter"></i>
                 </a>
                 <?php endif; ?>
                 <?php if ($ig = setting('instagram_url')): ?>
-                <a href="<?= e($ig) ?>" target="_blank" class="w-10 h-10 rounded-lg bg-brand-primary flex items-center justify-center text-white hover:bg-brand-accent transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-brand-primary/20">
+                <a href="<?= e($ig) ?>" target="_blank" data-track="SOCIAL" data-label="Instagram" class="w-10 h-10 rounded-lg bg-brand-primary flex items-center justify-center text-white hover:bg-brand-accent transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-brand-primary/20">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
                 <?php endif; ?>
                 <?php if ($li = setting('linkedin_url')): ?>
-                <a href="<?= e($li) ?>" target="_blank" class="w-10 h-10 rounded-lg bg-brand-primary flex items-center justify-center text-white hover:bg-brand-accent transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-brand-primary/20">
+                <a href="<?= e($li) ?>" target="_blank" data-track="SOCIAL" data-label="LinkedIn" class="w-10 h-10 rounded-lg bg-brand-primary flex items-center justify-center text-white hover:bg-brand-accent transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-brand-primary/20">
                     <i class="fa-brands fa-linkedin-in"></i>
                 </a>
                 <?php endif; ?>
                 <?php if ($wa = setting('whatsapp_number')): ?>
-                <a href="https://wa.me/<?= e(str_replace(['+', ' '], '', $wa)) ?>" target="_blank" class="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white hover:bg-emerald-600 transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-emerald-500/20">
+                <a href="https://wa.me/<?= e(str_replace(['+', ' '], '', $wa)) ?>" target="_blank" data-track="SOCIAL" data-label="WhatsApp" class="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white hover:bg-emerald-600 transition-all duration-300 ease-out hover:scale-110 shadow-lg shadow-emerald-500/20">
                     <i class="fa-brands fa-whatsapp"></i>
                 </a>
                 <?php endif; ?>
@@ -72,7 +73,37 @@
 </footer>
 
 <?php require_once __DIR__ . '/lead-modal.php'; ?>
+<?php if (setting('show_chatbot', '1') === '1'): ?>
+    <?php require_once __DIR__ . '/components/smart-chat.php'; ?>
+<?php endif; ?>
 <?php require_once __DIR__ . '/components/promo-modal.php'; ?>
+
+
+<script>
+/**
+ * Advanced User Action Tracker
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Find all elements marked for tracking
+    const trackables = document.querySelectorAll('[data-track]');
+    
+    // 2. Attach click listeners
+    trackables.forEach(el => {
+        el.addEventListener('click', function(e) {
+            const category = el.getAttribute('data-track') || 'GENERAL';
+            const action = el.getAttribute('data-action') || 'CLICK';
+            const label = el.getAttribute('data-label') || el.innerText || el.getAttribute('href');
+            
+            // 3. Send to API endpoint
+            fetch('<?= url('public/api/track-event.php') ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, action, label })
+            }).catch(err => console.error('Tracking failed:', err));
+        });
+    });
+});
+</script>
 
 </body>
 </html>

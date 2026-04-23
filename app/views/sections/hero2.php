@@ -26,8 +26,9 @@
                             rounded-full mb-8 backdrop-blur-sm">
                     <div class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></div>
                     <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-heading dark:text-inverse">
-                        Now servicing 50+ organizations
+                        Now servicing 60+ organizations
                     </span>
+
                 </div>
                 
                 <h1 class="font-display text-5xl md:text-7xl font-extrabold mb-8 leading-[1.1] tracking-tight text-heading dark:text-inverse">

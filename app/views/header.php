@@ -77,7 +77,45 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
         /* Modal Transitions */
         [x-cloak] { display: none !important; }
 
+        /* Premium Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--brand-primary), var(--brand-accent));
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Custom Premium Cursor */
+        #custom-cursor {
+            width: 12px;
+            height: 12px;
+            background: var(--brand-primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease-out, opacity 0.3s ease;
+            mix-blend-mode: difference;
+            opacity: 0;
+        }
+        #custom-cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--brand-primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.2s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+
         <?php if (setting('show_grid_bg', '1') === '1'): ?>
+
         /* Global Grid Background for Sections */
         section {
             position: relative;
@@ -105,11 +143,84 @@ if (Auth::check() && setting('maintenance_mode') === '1'): ?>
 </head>
 
 <body x-data="{ modalOpen: false }" 
+@open-modal.window="modalOpen = true"
 class="bg-white text-heading 
        dark:bg-brand-dark dark:text-inverse 
        font-sans antialiased 
        selection:bg-brand-accent selection:text-white 
        transition-colors duration-500">
+
+<?php include __DIR__ . '/components/preloader.php'; ?>
+
+
+<!-- Premium UI Elements -->
+<div id="scroll-progress"></div>
+<div id="custom-cursor" class="hidden md:block"></div>
+<div id="custom-cursor-outline" class="hidden md:block"></div>
+
+<script>
+    // 💡 Scroll Progress Logic
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("scroll-progress").style.width = scrolled + "%";
+    });
+
+    // 💡 Premium Trailing Cursor Logic
+    const cursor = document.getElementById('custom-cursor');
+    const outline = document.getElementById('custom-cursor-outline');
+    
+    if (window.innerWidth > 768) {
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.opacity = "1";
+            outline.style.opacity = "1";
+            
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            cursor.style.transform = `translate3d(${x - 6}px, ${y - 6}px, 0)`;
+            outline.style.transform = `translate3d(${x - 20}px, ${y - 20}px, 0)`;
+        });
+
+        // Hover scales
+        document.querySelectorAll('a, button, [role="button"]').forEach(el => {
+            el.addEventListener('mouseenter', () => outline.style.transform += ' scale(1.5)');
+            el.addEventListener('mouseleave', () => outline.style.transform = outline.style.transform.replace(' scale(1.5)', ''));
+        });
+    }
+
+    // 💡 Scroll Reveal Logic
+    const revealCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal-active');
+            }
+        });
+    };
+
+    const revealObserver = new IntersectionObserver(revealCallback, { threshold: 0.1 });
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('reveal-init');
+            revealObserver.observe(section);
+        });
+    });
+</script>
+
+<style>
+    /* Reveal Animation Classes */
+    .reveal-init {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    }
+    .reveal-active {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+</style>
+
 
 
 <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300 border-b border-white/5">
@@ -155,25 +266,24 @@ class="bg-white text-heading
             
             <div class="flex items-center gap-6 mr-4 border-r border-slate-200 dark:border-white/10 pr-6">
                 <a href="<?= url('') ?>" class="text-heading hover:text-brand-primary transition-colors">Home</a>
-                <a href="<?= url('') ?>#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
-                <a href="<?= url('') ?>#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
-                <a href="<?= url('') ?>#testimonials" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
-                <a href="<?= url('') ?>#faq" class="text-heading hover:text-brand-primary transition-colors">FAQ</a>
+                <a href="<?= url('services.php') ?>" class="text-heading hover:text-brand-primary transition-colors">Services & Process</a>
+                <a href="<?= url('works.php') ?>" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
+                <a href="<?= url('index.php#testimonials') ?>" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
             </div>
 
             <!-- Social Links in Header -->
             <div class="flex items-center gap-4 text-slate-400/50">
                 <?php if ($fb = setting('facebook_url')): ?>
-                    <a href="<?= e($fb) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+                    <a href="<?= e($fb) ?>" target="_blank" data-track="SOCIAL" data-label="Facebook (Header)" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-facebook-f text-sm"></i></a>
                 <?php endif; ?>
                 <?php if ($li = setting('linkedin_url')): ?>
-                    <a href="<?= e($li) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
+                    <a href="<?= e($li) ?>" target="_blank" data-track="SOCIAL" data-label="LinkedIn (Header)" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
                 <?php endif; ?>
                 <?php if ($ig = setting('instagram_url')): ?>
                     <a href="<?= e($ig) ?>" target="_blank" class="hover:text-brand-primary transition-colors"><i class="fa-brands fa-instagram text-sm"></i></a>
                 <?php endif; ?>
                 <?php if ($wa = setting('whatsapp_number')): ?>
-                    <a href="https://wa.me/<?= e(str_replace(['+', ' '], '', $wa)) ?>" target="_blank" class="hover:text-emerald-500 transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+                    <a href="https://wa.me/<?= e(str_replace(['+', ' '], '', $wa)) ?>" target="_blank" data-track="SOCIAL" data-label="WhatsApp (Header)" class="hover:text-emerald-500 transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
                 <?php endif; ?>
             </div>
             
@@ -190,9 +300,14 @@ class="bg-white text-heading
                 <a href="<?= url('dashboard') ?>" class="text-brand-primary">Console</a>
                 <a href="<?= url('logout') ?>" class="text-rose-500 transition-colors">Sign Out</a>
             <?php else: ?>
-                <button @click="modalOpen = true" class="bg-brand-primary text-white px-8 py-3 rounded-xl shadow-xl shadow-brand-primary/20 hover:bg-brand-primary/90 transition-all transform hover:-translate-y-0.5 active:translate-y-0 uppercase tracking-widest text-[10px]">
-                    Connect Now
-                </button>
+                <div class="flex items-center gap-3">
+                    <?php if (setting('show_estimator', '1') === '1'): ?>
+                        <a href="<?= url('estimator.php') ?>" class="text-brand-accent hover:text-brand-primary transition-colors pr-2 border-r border-slate-200 dark:border-white/10">Estimator</a>
+                    <?php endif; ?>
+                    <button @click="modalOpen = true" data-track="CTA" data-label="Header_Connect_Now" class="bg-brand-primary text-white px-6 py-3 rounded-xl shadow-xl shadow-brand-primary/20 hover:bg-brand-primary/90 transition-all transform hover:-translate-y-0.5 active:translate-y-0 uppercase tracking-widest text-[10px]">
+                        Connect Now
+                    </button>
+                </div>
             <?php endif; ?>
         </nav>
 
@@ -220,10 +335,12 @@ class="bg-white text-heading
         
         <nav class="flex flex-col px-8 py-10 space-y-6 text-[11px] font-bold uppercase tracking-[0.2em]">
             <a href="<?= url('') ?>" class="text-heading hover:text-brand-primary transition-colors">Home</a>
-            <a href="<?= url('') ?>#services" class="text-heading hover:text-brand-primary transition-colors">Services</a>
-            <a href="<?= url('') ?>#solutions" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
-            <a href="<?= url('') ?>#testimonials" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
-            <a href="<?= url('') ?>#faq" class="text-heading hover:text-brand-primary transition-colors">FAQ</a>
+            <a href="<?= url('services.php') ?>" class="text-heading hover:text-brand-primary transition-colors">Services & Process</a>
+            <a href="<?= url('works.php') ?>" class="text-heading hover:text-brand-primary transition-colors">Portfolio</a>
+            <?php if (setting('show_estimator', '1') === '1'): ?>
+                <a href="<?= url('estimator.php') ?>" class="text-brand-accent hover:text-brand-primary transition-colors">Project Estimator</a>
+            <?php endif; ?>
+            <a href="<?= url('index.php#testimonials') ?>" class="text-heading hover:text-brand-primary transition-colors">Reviews</a>
 
             
             <div class="pt-6 border-t dark:border-slate-800 space-y-6">

@@ -133,13 +133,15 @@ class ClientsController extends BaseController {
         if (!empty($files['logo']['name'])) {
             $upload = $files['logo'];
             if ($upload['error'] === UPLOAD_ERR_OK) {
-                $allowed = ['image/png','image/jpeg','image/svg+xml','image/webp'];
-                if (!in_array($upload['type'], $allowed)) {
-                    $_SESSION['flash_error'] = 'Invalid file type for logo.';
+                $allowedMimes = ['image/png','image/jpeg','image/svg+xml','image/webp'];
+                $allowedExts = ['png','jpg','jpeg','svg','webp'];
+                
+                if (!Validator::validateFile($upload, $allowedMimes, $allowedExts)) {
+                    $_SESSION['flash_error'] = Validator::error('file') ?: 'Invalid logo file.';
                     redirect('admin/clients.php?edit=' . $id);
                 }
 
-                $ext = pathinfo($upload['name'], PATHINFO_EXTENSION);
+                $ext = strtolower(pathinfo($upload['name'], PATHINFO_EXTENSION));
                 $filename = 'client_' . time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
                 $destDir = __DIR__ . '/../../public/uploads/clients';
                 if (!is_dir($destDir)) { @mkdir($destDir, 0755, true); }
@@ -214,6 +216,7 @@ class ClientsController extends BaseController {
                 $stmt = $this->pdo->prepare("UPDATE clients SET sort_order = ? WHERE id = ?");
                 $stmt->execute([$index, $id]);
             }
+            Logger::adminAction($this->userId, 'REORDER_CLIENTS', 'Changed display order of client logos');
             echo json_encode(['success' => true, 'message' => 'Order updated']);
         } catch (Exception $e) {
             http_response_code(500);
@@ -243,13 +246,15 @@ class ClientsController extends BaseController {
             redirect('admin/clients.php');
         }
 
-        $allowed = ['image/png','image/jpeg','image/svg+xml','image/webp'];
-        if (!in_array($upload['type'], $allowed)) {
-            $_SESSION['flash_error'] = 'Invalid file type. Allowed: PNG, JPG, SVG, WEBP.';
+        $allowedMimes = ['image/png','image/jpeg','image/svg+xml','image/webp'];
+        $allowedExts = ['png','jpg','jpeg','svg','webp'];
+        
+        if (!Validator::validateFile($upload, $allowedMimes, $allowedExts)) {
+            $_SESSION['flash_error'] = Validator::error('file') ?: 'Invalid logo file.';
             redirect('admin/clients.php');
         }
 
-        $ext = pathinfo($upload['name'], PATHINFO_EXTENSION);
+        $ext = strtolower(pathinfo($upload['name'], PATHINFO_EXTENSION));
         $filename = 'client_' . time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
 
         $destDir = __DIR__ . '/../../public/uploads/clients';

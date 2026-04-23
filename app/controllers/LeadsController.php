@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/BaseController.php';
+require_once __DIR__ . '/../core/Recaptcha.php';
+require_once __DIR__ . '/../core/Email.php';
 
 /**
  * LeadsController
@@ -76,11 +78,24 @@ class LeadsController extends BaseController {
             'name' => 'required|min:2|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|phone',
-            'message' => 'required|min:10|max:5000',
+            'message' => 'required|min:10|max:5000|spam_terms|max_links:2',
             'service_type' => 'max:100',
             'contact_method' => 'max:50',
-            'contact_time' => 'max:100'
+            'contact_time' => 'max:100',
+            'website_url' => 'honeypot'
         ];
+
+        // Check submission timer (must be at least 3 seconds)
+        $startTime = isset($data['submission_start']) ? (int)$data['submission_start'] : 0;
+        $now = time();
+        if ($startTime > 0 && ($now - $startTime) < 3) {
+            Logger::security('BOT_SUBMISSION_DETECTED', 'Submission too fast (possible bot)', [
+                'ip_address' => $_SERVER['REMOTE_ADDR'],
+                'time_taken' => $now - $startTime
+            ]);
+            http_response_code(422);
+            die(json_encode(['success' => false, 'message' => 'Try again after some time']));
+        }
 
         if (!Validator::validate($data, $rules)) {
             Logger::security('VALIDATION_FAILED', 'Lead form validation failed', [
@@ -89,6 +104,19 @@ class LeadsController extends BaseController {
             ]);
             http_response_code(422);
             die(json_encode(['success' => false, 'errors' => Validator::errors()]));
+        }
+
+        // ✅ Phase 2: reCAPTCHA Verification
+        $recaptchaToken = $data['g-recaptcha-response'] ?? null;
+        Recaptcha::setSecret(setting('recaptcha_secret_key'));
+        if (!Recaptcha::verify($recaptchaToken)) {
+            if (!empty(setting('recaptcha_secret_key'))) {
+                Logger::security('RECAPTCHA_FAILED', 'reCAPTCHA verification failed', [
+                    'ip_address' => $_SERVER['REMOTE_ADDR']
+                ]);
+                http_response_code(422);
+                die(json_encode(['success' => false, 'message' => 'Security verification failed. Please try again.']));
+            }
         }
 
         // Sanitize inputs
@@ -118,6 +146,16 @@ class LeadsController extends BaseController {
             $_SERVER['REMOTE_ADDR']
         ]);
 
+        $leadId = $this->pdo->lastInsertId();
+
+        // ✅ Phase 3: Email Notification
+        Email::notifyNewLead([
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'project_detail' => $message
+        ]);
+
         // Record the attempt for rate limiting
         $rateLimiter->recordAttempt();
 
@@ -128,7 +166,7 @@ class LeadsController extends BaseController {
             'ip_address' => $_SERVER['REMOTE_ADDR']
         ]);
 
-        return $this->pdo->lastInsertId();
+        return $leadId;
     }
 
     /**
@@ -179,9 +217,6 @@ class LeadsController extends BaseController {
         return $result;
     }
 
-    /**
-     * Get all leads
-     */
     /**
      * Get paginated leads
      */

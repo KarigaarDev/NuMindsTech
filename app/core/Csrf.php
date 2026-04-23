@@ -22,6 +22,10 @@ if (!class_exists('Csrf')) {
             }
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+                    Logger::security('CSRF_FAILURE', 'CSRF validation failed for a POST request', [
+                        'posted_token' => $_POST['csrf_token'] ?? 'missing',
+                        'uri' => $_SERVER['REQUEST_URI']
+                    ]);
                     http_response_code(419);
                     die('CSRF validation failed. Please go back, refresh the page, and try again.');
                 }

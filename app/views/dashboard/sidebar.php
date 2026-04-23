@@ -97,11 +97,18 @@ $current = basename($_SERVER['PHP_SELF'], '.php');
                 Appearance
             </a>
 
+            <a href="<?= url('admin/logs.php') ?>" 
+               class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-2xl <?= $current === 'logs' ? 'bg-brand-primary text-white shadow-xl shadow-brand-primary/20' : 'text-slate-400 hover:text-white hover:bg-white/5' ?>">
+                <i class="fa-solid fa-list-check w-5 text-center text-sm"></i>
+                Audit Logs
+            </a>
+
             <a href="<?= url('settings') ?>" 
                class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-2xl <?= $current === 'settings' ? 'bg-brand-primary text-white shadow-xl shadow-brand-primary/20' : 'text-slate-400 hover:text-white hover:bg-white/5' ?>">
                 <i class="fa-solid fa-gear w-5 text-center text-sm"></i>
                 Settings
             </a>
+
         <?php else: ?>
             <p class="px-4 text-[9px] font-bold text-slate-600 uppercase tracking-[0.4em] mb-4">Account</p>
             
@@ -129,6 +136,15 @@ $current = basename($_SERVER['PHP_SELF'], '.php');
              </span>
              <i class="fa-solid fa-chevron-right text-[8px] opacity-0 group-hover:opacity-100 transition-all"></i>
         </button>
+
+        <a href="<?= url('profile') ?>" 
+           class="w-full flex items-center justify-between px-5 py-4 rounded-2xl bg-white/5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-white transition-all group <?= $current === 'profile' ? 'bg-brand-primary !text-white' : '' ?>">
+             <span class="flex items-center gap-3">
+                <i class="fa-solid fa-user-circle group-hover:rotate-12 transition-transform"></i>
+                My Profile
+             </span>
+             <i class="fa-solid fa-chevron-right text-[8px] opacity-0 group-hover:opacity-100 transition-all"></i>
+        </a>
 
         <a href="<?= url('logout') ?>" 
            class="flex items-center gap-4 px-5 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-rose-400 transition-all group rounded-2xl hover:bg-rose-500/5">

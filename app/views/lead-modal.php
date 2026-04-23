@@ -57,6 +57,14 @@
             <form id="leadForm" action="<?= url('submit-lead.php') ?>" method="POST" class="space-y-6">
                 <?= csrf_field() ?>
 
+                <!-- Honeypot field (hidden from users) -->
+                <div class="hidden" aria-hidden="true">
+                    <input type="text" name="website_url" tabindex="-1" autocomplete="off">
+                </div>
+
+                <!-- Submission Timer -->
+                <input type="hidden" name="submission_start" id="submission_start" value="<?= time() ?>">
+
                 <div id="leadFormFeedback"></div>
 
                 <!-- Grid -->
@@ -169,6 +177,22 @@ document.addEventListener('DOMContentLoaded', function(){
     var feedback = document.getElementById('leadFormFeedback');
     var submitBtn = document.getElementById('leadFormSubmit');
     var submitText = document.getElementById('leadFormSubmitText');
+    var submissionStart = document.getElementById('submission_start');
+
+    // Reset submission start time when modal opens
+    window.addEventListener('alpine:init', () => {
+        // Alpine initialization handled elsewhere usually, 
+        // but we can listen for the modalOpen change if needed.
+    });
+
+    // Simple way: Update timestamp when user clicks any input for the first time
+    var timestampSet = false;
+    form.addEventListener('focusin', function() {
+        if (!timestampSet) {
+            submissionStart.value = Math.floor(Date.now() / 1000);
+            timestampSet = true;
+        }
+    });
 
     function showErrors(errors){
         var errorMsg = 'Try again after some time';

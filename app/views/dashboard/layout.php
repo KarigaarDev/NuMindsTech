@@ -19,6 +19,8 @@ require_once __DIR__ . '../../../core/helpers.php';
     <!-- Charts: Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <?php require __DIR__ . '/../../config/tailwind.php'; ?>

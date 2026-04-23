@@ -31,6 +31,12 @@ use UI\Component;
         <button @click="activeTab = 'marketing'" :class="activeTab === 'marketing' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
             <i class="fa-solid fa-bullhorn"></i> Marketing
         </button>
+        <button @click="activeTab = 'security'" :class="activeTab === 'security' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-shield-halved"></i> Security
+        </button>
+        <button @click="activeTab = 'email'" :class="activeTab === 'email' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20' : 'bg-white dark:bg-brand-navy dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'" class="px-8 py-4 rounded-xl font-display font-bold text-[10px] uppercase tracking-widest transition-all border border-slate-100 dark:border-white/5 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-envelope"></i> Email
+        </button>
     </div>
 
     <form method="post" enctype="multipart/form-data" class="space-y-8 pb-20">
@@ -94,6 +100,7 @@ use UI\Component;
             <?= Component::card('
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                     ' . Component::checkbox('show_hero', 'Show Hero Section', ($settings['show_hero'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_preloader', 'Show Premium Preloader', ($settings['show_preloader'] ?? '0') === '1') . '
                     ' . Component::checkbox('show_stats', 'Show Stats Counter', ($settings['show_stats'] ?? '1') === '1') . '
                     ' . Component::checkbox('show_problems', 'Show Our Approach (Problems)', ($settings['show_problems'] ?? '1') === '1') . '
                     ' . Component::checkbox('show_services', 'Show Services Grid', ($settings['show_services'] ?? '1') === '1') . '
@@ -102,6 +109,8 @@ use UI\Component;
                     ' . Component::checkbox('show_testimonials', 'Show Client Praises', ($settings['show_testimonials'] ?? '1') === '1') . '
                     ' . Component::checkbox('show_blogs', 'Show Dev Diaries (Blog)', ($settings['show_blogs'] ?? '1') === '1') . '
                     ' . Component::checkbox('show_cta', 'Show Final CTA Section', ($settings['show_cta'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_chatbot', 'Enable Nimmi AI Chatbot', ($settings['show_chatbot'] ?? '1') === '1') . '
+                    ' . Component::checkbox('show_estimator', 'Enable Project Estimator Flow', ($settings['show_estimator'] ?? '1') === '1') . '
                     ' . Component::checkbox('show_grid_bg', 'Global Grid Background', ($settings['show_grid_bg'] ?? '1') === '1') . '
                 </div>
             ', 'Homepage Visibility Control', 'fa-layer-group') ?>
@@ -173,6 +182,43 @@ use UI\Component;
                     </div>
                 </div>
             ', 'Promo Lead Magnet', 'fa-bullhorn') ?>
+        </div>
+
+        <!-- SECURITY SETTINGS -->
+        <div x-show="activeTab === 'security'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <?= Component::card('
+                <div class="grid gap-6">
+                    <div class="p-6 rounded-2xl bg-brand-primary/5 border border-brand-primary/10 mb-2">
+                        <div class="flex gap-4">
+                            <i class="fa-solid fa-info-circle text-brand-primary mt-1"></i>
+                            <div>
+                                <h5 class="text-xs font-bold text-brand-secondary dark:text-white underline">Google reCAPTCHA v3</h5>
+                                <p class="text-[10px] text-slate-500 mt-1">Protects your lead forms from bots without interrupting users. Get keys from <a href="https://www.google.com/recaptcha/admin" target="_blank" class="text-brand-primary hover:underline">Google Admin Console</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        ' . Component::input('recaptcha_site_key', 'reCAPTCHA Site Key', $settings['recaptcha_site_key'] ?? '', 'text', '6Lc...') . '
+                        ' . Component::input('recaptcha_secret_key', 'reCAPTCHA Secret Key', $settings['recaptcha_secret_key'] ?? '', 'password', '6Lc...') . '
+                    </div>
+                </div>
+            ', 'Spam Protection', 'fa-shield-halved') ?>
+        </div>
+
+        <!-- EMAIL SETTINGS -->
+        <div x-show="activeTab === 'email'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <?= Component::card('
+                <div class="grid gap-6">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        ' . Component::input('mail_sender_name', 'Sender Display Name', $settings['mail_sender_name'] ?? 'Numinds Tech', 'text', 'Numinds Notifications') . '
+                        ' . Component::input('mail_sender_email', 'Sender Email Address', $settings['mail_sender_email'] ?? '', 'email', 'noreply@yourdomain.com') . '
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 dark:border-white/5">
+                        ' . Component::input('mail_notifications_to', 'Notification Recipient Email', $settings['mail_notifications_to'] ?? '', 'email', 'admin@yourdomain.com') . '
+                        <p class="text-[9px] text-slate-400 mt-2 font-medium">Internal requests and lead notifications will be sent to this address.</p>
+                    </div>
+                </div>
+            ', 'Mail Configuration', 'fa-envelope') ?>
         </div>
 
         <!-- Submit Button Overlay -->

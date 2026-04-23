@@ -46,8 +46,9 @@ dark:from-brand-dark dark:via-brand-secondary dark:to-black">
 
             <span class="text-[10px] font-bold uppercase tracking-[0.2em] 
                          text-heading dark:text-inverse">
-                50+ Global Organizations Trust NuMinds Tech
+                60+ Organizations Trust NuMinds Tech
             </span>
+
         </div>
 
         <!-- Heading -->

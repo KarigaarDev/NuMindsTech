@@ -1,8 +1,7 @@
 <?php
-// public/portfolio.php
-session_start();
 require_once '../app/config/db.php';
 require_once '../app/core/helpers.php';
+Auth::startSession();
 
 Auth::requireLogin();
 Auth::requireAdmin();
@@ -28,19 +27,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle image upload
     $featured_image = null;
     if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] === 0) {
-        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
-        $filename = $_FILES['featured_image']['name'];
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        
-        if (in_array($ext, $allowed) && $_FILES['featured_image']['size'] < 5000000) {
-            $newname = uniqid() . '.' . $ext;
+        $upload = $_FILES['featured_image'];
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
+        $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
+
+        if (Validator::validateFile($upload, $allowedMimes, $allowedExts) && $upload['size'] < 5000000) {
+            $ext = strtolower(pathinfo($upload['name'], PATHINFO_EXTENSION));
+            $newname = bin2hex(random_bytes(10)) . '.' . $ext;
             $destination = '../public/uploads/' . $newname;
             
-            if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $destination)) {
+            if (move_uploaded_file($upload['tmp_name'], $destination)) {
                 $featured_image = $newname;
             }
         }
     }
+
     
     if ($action === 'create') {
         $stmt = $pdo->prepare("INSERT INTO portfolio_items (title, description, client_name, featured_image, category, tags, project_url, completion_date, status, is_featured, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");

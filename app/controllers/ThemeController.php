@@ -42,6 +42,7 @@ class ThemeController extends BaseController {
             $stmt = $this->pdo->prepare("UPDATE themes SET is_active = 1 WHERE id = ?");
             $stmt->execute([$id]);
             $this->pdo->commit();
+            Logger::adminAction($this->userId, 'ACTIVATE_THEME', "Activated theme ID: $id", ['theme_id' => $id]);
             $_SESSION['success'] = 'Theme activated successfully!';
             redirect('admin/themes.php');
         } elseif ($action === 'delete' && $id) {
@@ -55,6 +56,7 @@ class ThemeController extends BaseController {
             } else {
                 $stmt = $this->pdo->prepare("DELETE FROM themes WHERE id = ?");
                 $stmt->execute([$id]);
+                Logger::adminAction($this->userId, 'DELETE_THEME', "Deleted theme ID: $id", ['theme_id' => $id]);
                 $_SESSION['success'] = 'Theme deleted successfully!';
             }
             $this->pdo->commit();
@@ -118,10 +120,12 @@ class ThemeController extends BaseController {
             }
             
             $_SESSION['success'] = 'Theme created successfully!';
+            Logger::adminAction($this->userId, 'CREATE_THEME', "Created new theme: $name", ['theme_name' => $name]);
         } elseif ($action === 'edit' && $id) {
             $stmt = $this->pdo->prepare("UPDATE themes $sql WHERE id=?");
             $params[] = $id;
             $stmt->execute($params);
+            Logger::adminAction($this->userId, 'UPDATE_THEME', "Updated theme configuration: $name", ['theme_id' => $id, 'theme_name' => $name]);
             $_SESSION['success'] = 'Theme updated successfully!';
         }
 

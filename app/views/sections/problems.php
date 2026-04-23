@@ -43,10 +43,10 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-heading dark:text-inverse">
-                                Slow Website
+                                Revenue Leak
                             </h4>
                             <p class="text-xs text-body dark:text-muted">
-                                People leave fast
+                                Every second of lag costs customers
                             </p>
                         </div>
                     </div>
@@ -57,10 +57,10 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-heading dark:text-inverse">
-                                Too Many Tools
+                                Operational Chaos
                             </h4>
                             <p class="text-xs text-body dark:text-muted">
-                                Hard to manage
+                                Fragmented tools, high effort
                             </p>
                         </div>
                     </div>
@@ -71,10 +71,10 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-heading dark:text-inverse">
-                                Not Safe
+                                Compliance Risks
                             </h4>
                             <p class="text-xs text-body dark:text-muted">
-                                Risk of problems
+                                Data exposure and downtime
                             </p>
                         </div>
                     </div>
@@ -115,10 +115,10 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-heading dark:text-inverse">
-                                Fast Site
+                                High Conversion
                             </h4>
                             <p class="text-xs text-body dark:text-muted">
-                                Loads quickly
+                                Optimized for speed & sales
                             </p>
                         </div>
                     </div>
@@ -129,10 +129,10 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-heading dark:text-inverse">
-                                One System
+                                Lean Workflow
                             </h4>
                             <p class="text-xs text-body dark:text-muted">
-                                Easy to use
+                                All-in-one central control
                             </p>
                         </div>
                     </div>
@@ -143,10 +143,10 @@
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-heading dark:text-inverse">
-                                Safe & Secure
+                                Enterprise Trust
                             </h4>
                             <p class="text-xs text-body dark:text-muted">
-                                No worries
+                                Secure, bank-level protocols
                             </p>
                         </div>
                     </div>
